@@ -1,0 +1,99 @@
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Define font family */
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* Define container styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* Define heading styles */
+h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+/* Define date styles */
+.date {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #999;
+}
+
+/* Define gold rate styles */
+.gold-rate {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+/* Define metal rate styles */
+.fine-gold,
+.tejabi-gold,
+.silver {
+    width: 30%;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Define metal title styles */
+.fine-gold h2,
+.tejabi-gold h2,
+.silver h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+/* Define metal rate styles */
+.fine-gold .tola,
+.fine-gold .gram,
+.tejabi-gold .tola,
+.tejabi-gold .gram,
+.silver .tola,
+.silver .gram{
+    font-size: 1.4em;
+    margin-bottom: 10px;
+}
+
+/* Dark mode styles */
+body.dark-mode {
+    background-color: #333;
+    color: #fff;
+}
+
+body.dark-mode .container {
+    border-color: #fff;
+}
+
+#dark-mode-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99;
+    background-color: transparent;
+    border: none;
+}
+
+#dark-mode-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    cursor: pointer;
+}
