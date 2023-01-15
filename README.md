@@ -15,3 +15,4 @@
 4. Responsive
 5. Easy to use UI
 
+> Imma abandon this project for now. I'll come back to it later.
