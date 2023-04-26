@@ -23,7 +23,7 @@ darkModeButton.addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
     toggleDarkModeIcon();
 });
-fetch('https://raw.githubusercontent.com/ZXY-CC-3ag13/GoldMandu/main/Values.json')
+fetch('Values.json')
     .then(response => response.json())
     .then(data => {
         const { day, month, year, fine_gold_tola, fine_gold_gram, tejabi_gold_tola, tejabi_gold_gram, silver_tola, silver_gram } = data[0];
