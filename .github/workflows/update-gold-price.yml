@@ -24,7 +24,7 @@ jobs:
         run: |
           git config --global user.name '${{ secrets.MAIN_USERNAME }}'
           git config --global user.email '${{ secrets.MAIN_EMAIL }}'
-          git add -f Values.json scripts/__pycache__/scrape.cpython-39.pyc
+          git add -f Values.json
           git commit -m "Update Values.json"
           git push
         env:
