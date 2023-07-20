@@ -15,6 +15,7 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     text-align: center;
+    padding: 20px;
 }
 
 /* Define heading styles */
@@ -35,6 +36,7 @@ h1 {
 /* Define gold rate styles */
 .gold-rate {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     margin-bottom: 20px;
 }
@@ -43,11 +45,13 @@ h1 {
 .fine-gold,
 .tejabi-gold,
 .silver {
-    width: 30%;
+    width: 100%;
+    max-width: 300px;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
     text-align: center;
+    margin-bottom: 20px;
 }
 
 /* Define metal title styles */
@@ -97,3 +101,22 @@ body.dark-mode .container {
     font-size: 1.5em;
     cursor: pointer;
 }
+
+/* Add the following CSS to your existing CSS code */
+
+/* Responsive styles */
+@media only screen and (max-width: 768px) {
+    .gold-rate {
+        flex-direction: column;
+    }
+
+    /* Adjust the styles to make each element appear on a new line */
+    .fine-gold,
+    .tejabi-gold,
+    .silver {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 20px; /* Add margin to create space between elements */
+    }
+}
+
