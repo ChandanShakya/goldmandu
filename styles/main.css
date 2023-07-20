@@ -68,7 +68,7 @@ h1 {
 .tejabi-gold .tola,
 .tejabi-gold .gram,
 .silver .tola,
-.silver .gram{
+.silver .gram {
     font-size: 1.4em;
     margin-bottom: 10px;
 }
@@ -102,32 +102,18 @@ body.dark-mode .container {
     cursor: pointer;
 }
 
-<<<<<<< HEAD
-/* Add the following CSS to your existing CSS code */
-
-=======
->>>>>>> 36010ad44421642b75a67ec075944248ea5b5b0f
 /* Responsive styles */
 @media only screen and (max-width: 768px) {
     .gold-rate {
         flex-direction: column;
     }
 
-<<<<<<< HEAD
     /* Adjust the styles to make each element appear on a new line */
-=======
->>>>>>> 36010ad44421642b75a67ec075944248ea5b5b0f
     .fine-gold,
     .tejabi-gold,
     .silver {
         width: 100%;
         max-width: 100%;
-<<<<<<< HEAD
-        margin-bottom: 20px; /* Add margin to create space between elements */
+        margin-bottom: 20px;
     }
 }
-
-=======
-    }
-}
->>>>>>> 36010ad44421642b75a67ec075944248ea5b5b0f
