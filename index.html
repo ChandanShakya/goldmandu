@@ -4,22 +4,22 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>GoldMandu</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="styles/main.css">
+    <link rel="stylesheet" type="text/css" href="assets/styles/main.css">
 </head>
 
 <body class="dark-mode">
-
-    <button id="dark-mode-btn">
-        <img id="dark-mode-icon" src="images/moon.png" alt="Dark mode toggle icon">
-    </button>
-
-    <div class="container">
+    <header>
         <h1>GoldMandu</h1>
         <div class="date"></div>
-        <div class="gold-rate">
+        <button id="dark-mode-btn">
+            <img id="dark-mode-icon" src="assets/images/moon.png" alt="Dark mode toggle icon">
+        </button>
+    </header>
+
+    <main class="container">
+        <section class="gold-rate">
             <div class="fine-gold">
                 <h2>Fine Gold</h2>
                 <div class="tola"></div>
@@ -35,8 +35,10 @@
                 <div class="tola"></div>
                 <div class="gram"></div>
             </div>
-        </div>
-    </div>
+        </section>
+
+    </main>
+
     <script src="scripts/main.js"></script>
 </body>
 

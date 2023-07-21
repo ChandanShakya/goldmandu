@@ -12,10 +12,10 @@ const monthElement = document.querySelector('.month');
 const yearElement = document.querySelector('.year');
 
 function toggleDarkModeIcon() {
-    if (darkModeIcon.getAttribute('src') === 'images/moon.png') {
-        darkModeIcon.setAttribute('src', 'images/sun.png');
+    if (darkModeIcon.getAttribute('src') === 'assets/images/moon.png') {
+        darkModeIcon.setAttribute('src', 'assets/images/sun.png');
     } else {
-        darkModeIcon.setAttribute('src', 'images/moon.png');
+        darkModeIcon.setAttribute('src', 'assets/images/moon.png');
     }
 }
 
