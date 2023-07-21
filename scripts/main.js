@@ -7,9 +7,6 @@ const tejabiGoldTolaElement = document.querySelector('.tejabi-gold .tola');
 const tejabiGoldGramElement = document.querySelector('.tejabi-gold .gram');
 const silverTolaElement = document.querySelector('.silver .tola');
 const silverGramElement = document.querySelector('.silver .gram');
-const dayElement = document.querySelector('.day');
-const monthElement = document.querySelector('.month');
-const yearElement = document.querySelector('.year');
 
 function toggleDarkModeIcon() {
     if (darkModeIcon.getAttribute('src') === 'assets/images/moon.png') {
@@ -34,8 +31,6 @@ fetch('Values.json')
         tejabiGoldGramElement.textContent = `Gram: ${tejabi_gold_gram}`;
         silverTolaElement.textContent = `Tola: ${silver_tola}`;
         silverGramElement.textContent = `Gram: ${silver_gram}`;
-        dayElement.textContent = day;
-        monthElement.textContent = month;
-        yearElement.textContent = year;
+
     })
     .catch(error => console.error(error));
