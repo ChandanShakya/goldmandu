@@ -26,11 +26,10 @@ fetch('Values.json')
         const { day, month, year, fine_gold_tola, fine_gold_gram, tejabi_gold_tola, tejabi_gold_gram, silver_tola, silver_gram } = data[0];
         dateElement.textContent = `Gold price on ${day} ${month} ${year}`;
         fineGoldTolaElement.textContent = `Tola: ${fine_gold_tola}`;
-        fineGoldGramElement.textContent = `Gram: ${fine_gold_gram}`;
+        fineGoldGramElement.textContent = `10 Grams: ${fine_gold_gram}`;
         tejabiGoldTolaElement.textContent = `Tola: ${tejabi_gold_tola}`;
-        tejabiGoldGramElement.textContent = `Gram: ${tejabi_gold_gram}`;
+        tejabiGoldGramElement.textContent = `10 Grams: ${tejabi_gold_gram}`;
         silverTolaElement.textContent = `Tola: ${silver_tola}`;
-        silverGramElement.textContent = `Gram: ${silver_gram}`;
-
+        silverGramElement.textContent = `10 Grams: ${silver_gram}`;
     })
     .catch(error => console.error(error));
