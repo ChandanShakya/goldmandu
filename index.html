@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GoldMandu</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="assets/styles/main.css">
     <link rel="icon" type="image/svg+xml" href="assets/images/Logo.svg">
@@ -38,6 +39,21 @@
             </div>
         </section>
 
+        <section class="charts-section">
+            <h2>Price History Charts</h2>
+            <div class="chart-container">
+                <h3>Fine Gold Price History (per Tola)</h3>
+                <canvas id="fineGoldChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>Tejabi Gold Price History (per Tola)</h3>
+                <canvas id="tejabiGoldChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>Silver Price History (per Tola)</h3>
+                <canvas id="silverChart"></canvas>
+            </div>
+        </section>
     </main>
 
     <script src="scripts/main.js"></script>

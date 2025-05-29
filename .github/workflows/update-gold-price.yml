@@ -20,7 +20,9 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Run Scrapy spider
-        run: scrapy runspider ./scripts/scrape.py -O Values.json
+        run: |
+          cd GoldMandu
+          scrapy crawl gold_spider
       - name: Commit changes
         run: |
           git config --global user.name '${{ secrets.MAIN_USERNAME }}'
