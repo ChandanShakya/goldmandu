@@ -1,3 +1,18 @@
+const nepaliMonths = {
+  "Baisakh": 1,
+  "Jestha": 2,
+  "Ashad": 3,
+  "Shrawan": 4,
+  "Bhadra": 5,
+  "Ashoj": 6,
+  "Kartik": 7,
+  "Mansir": 8,
+  "Poush": 9,
+  "Magh": 10,
+  "Falgun": 11,
+  "Chaitra": 12
+};
+
 const darkModeButton = document.getElementById('dark-mode-btn');
 const darkModeIcon = document.getElementById('dark-mode-icon');
 const dateElement = document.querySelector('.date');
