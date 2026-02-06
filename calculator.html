@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goldmandu - Gold & Silver Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Khand:wght@400;500;600;700&family=Archivo+Narrow:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/khang-nd/7.css/7.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="index.html" class="btn btn--nav">Home</a>
+            <h1>Gold & Silver Calculator</h1>
+            <p>Calculate prices, conversions, and investment returns</p>
+        </header>
+
+        <!-- Current Prices Display -->
+        <div class="current-prices" id="currentPrices">
+            <div class="price-card">
+                <h3>Fine Gold (24K) per Tola</h3>
+                <div class="price" id="fineGoldTola">Loading...</div>
+            </div>
+            <div class="price-card">
+                <h3>Tejabi Gold (22K) per Tola</h3>
+                <div class="price" id="tejabiGoldTola">Loading...</div>
+            </div>
+            <div class="price-card silver">
+                <h3>Silver per Tola</h3>
+                <div class="price" id="silverTola">Loading...</div>
+            </div>
+        </div>
+
+        <div class="grid columns" data-gap="20px">
+            <!-- Unit Converter -->
+            <div class="card">
+                <h2>Unit Converter</h2>
+                <div class="form-group">
+                    <label>Weight</label>
+                    <div class="input-group">
+                        <input type="number" class="input" id="convertWeight" placeholder="Enter weight" step="0.001">
+                        <select class="select" id="convertFrom">
+                            <option value="gram">Gram</option>
+                            <option value="tola">Tola</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="convertUnit()">Convert</button>
+                <div class="result-box" id="convertResult" >
+                    <h4>Conversion Result</h4>
+                    <div id="convertResultContent"></div>
+                </div>
+            </div>
+
+            <!-- Price Calculator -->
+            <div class="card">
+                <h2>Price Calculator</h2>
+                <div class="form-group">
+                    <label>Metal Type</label>
+                    <select class="select" id="priceMetal">
+                        <option value="fine">Fine Gold (24K)</option>
+                        <option value="tejabi">Tejabi Gold (22K)</option>
+                        <option value="silver">Silver</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Weight</label>
+                    <div class="input-group">
+                        <input type="number" class="input" id="priceWeight" placeholder="Enter weight" step="0.001">
+                        <select class="select" id="priceUnit">
+                            <option value="tola">Tola</option>
+                            <option value="gram">Gram</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="calculatePrice()">Calculate Price</button>
+                <div class="result-box" id="priceResult" >
+                    <h4>Price Breakdown</h4>
+                    <div id="priceResultContent"></div>
+                </div>
+            </div>
+
+            <!-- Jewelry Price Calculator -->
+            <div class="card">
+                <h2>Jewelry Price Calculator</h2>
+                <div class="form-group">
+                    <label>Gold Weight (Tola)</label>
+                    <input type="number" class="input" id="jewelryWeight" placeholder="Enter weight in tola" step="0.001">
+                </div>
+                <div class="form-group">
+                    <label>Making Charge per Tola (Rs.)</label>
+                    <input type="number" class="input" id="makingCharge" value="1000" placeholder="1000">
+                </div>
+                <div class="form-group">
+                    <label>Wastage (%)</label>
+                    <input type="number" class="input" id="wastage" value="8" placeholder="8">
+                </div>
+                <button class="btn btn-primary" onclick="calculateJewelry()">Calculate Jewelry Price</button>
+                <div class="result-box" id="jewelryResult" >
+                    <h4>Price Breakdown</h4>
+                    <div id="jewelryResultContent"></div>
+                </div>
+            </div>
+
+            <!-- Karat Price Converter -->
+            <div class="card">
+                <h2>Karat Price Converter</h2>
+                <div class="form-group">
+                    <label>24K Gold Price per Tola (Rs.)</label>
+                    <input type="number" class="input" id="karat24Price" placeholder="Enter 24K price">
+                </div>
+                <button class="btn btn-primary" onclick="showKaratPrices()">Show All Karat Prices</button>
+                <div class="result-box" id="karatResult" >
+                    <h4>Prices by Karat</h4>
+                    <div class="karat-grid" id="karatGrid"></div>
+                </div>
+            </div>
+
+            <!-- Gold Investment Calculator -->
+            <div class="card">
+                <h2>Gold Investment Calculator</h2>
+                <div class="form-group">
+                    <label>Initial Investment (Rs.)</label>
+                    <input type="number" class="input" id="invInitial" placeholder="100000">
+                </div>
+                <div class="form-group">
+                    <label>Monthly SIP (Rs.)</label>
+                    <input type="number" class="input" id="invMonthly" placeholder="5000">
+                </div>
+                <div class="form-group">
+                    <label>Investment Period (Years)</label>
+                    <input type="number" class="input" id="invYears" value="5" placeholder="5">
+                </div>
+                <div class="form-group">
+                    <label>Expected Return (%)</label>
+                    <input type="number" class="input" id="invReturn" value="8" placeholder="8">
+                </div>
+                <button class="btn btn-primary" onclick="calculateInvestment()">Calculate Returns</button>
+                <div class="result-box" id="invResult" >
+                    <h4>Investment Projection</h4>
+                    <div id="invResultContent"></div>
+                </div>
+            </div>
+
+            <!-- Investment Comparison -->
+            <div class="card">
+                <h2>Investment Comparison</h2>
+                <div class="form-group">
+                    <label>Investment Amount (Rs.)</label>
+                    <input type="number" class="input" id="compareAmount" placeholder="100000">
+                </div>
+                <div class="form-group">
+                    <label>Period (Years)</label>
+                    <input type="number" class="input" id="compareYears" value="5" placeholder="5">
+                </div>
+                <button class="btn btn-primary" onclick="compareInvestments()">Compare</button>
+                <div class="result-box" id="compareResult" >
+                    <h4>Comparison Results</h4>
+                    <table class="comparison-table" id="compareTable"></table>
+                </div>
+            </div>
+
+            <!-- Profit/Loss Calculator -->
+            <div class="card">
+                <h2>Profit/Loss Calculator</h2>
+                <div class="form-group">
+                    <label>Purchase Price per Tola (Rs.)</label>
+                    <input type="number" class="input" id="plPurchasePrice" placeholder="Enter purchase price">
+                </div>
+                <div class="form-group">
+                    <label>Weight Purchased (Tola)</label>
+                    <input type="number" class="input" id="plWeight" placeholder="Enter weight" step="0.001">
+                </div>
+                <div class="form-group">
+                    <label>Purchase Date</label>
+                    <input type="date" id="plDate">
+                </div>
+                <button class="btn btn-primary" onclick="calculateProfitLoss()">Calculate</button>
+                <div class="result-box" id="plResult" >
+                    <h4>Profit/Loss Analysis</h4>
+                    <div id="plResultContent"></div>
+                </div>
+            </div>
+
+            <!-- Selling Price Calculator -->
+            <div class="card">
+                <h2>Selling Price Calculator</h2>
+                <div class="form-group">
+                    <label>Gold Weight (Tola)</label>
+                    <input type="number" class="input" id="sellWeight" placeholder="Enter weight" step="0.001">
+                </div>
+                <div class="form-group">
+                    <label>Gold Type</label>
+                    <select class="select" id="sellType">
+                        <option value="fine">Fine Gold (24K)</option>
+                        <option value="tejabi">Tejabi Gold (22K)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Buy-Back Rate (%)</label>
+                    <input type="number" class="input" id="sellRate" value="97" placeholder="97">
+                </div>
+                <button class="btn btn-primary" onclick="calculateSellingPrice()">Calculate Selling Price</button>
+                <div class="result-box" id="sellResult" >
+                    <h4>Selling Price Breakdown</h4>
+                    <div id="sellResultContent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="calculator.js"></script>
+    <script>
+        // Load current prices on page load
+        let prices = {};
+        
+        async function loadPrices() {
+            try {
+                const response = await fetch('Values.json');
+                const data = await response.json();
+                if (Array.isArray(data) && data.length > 0) {
+                    const latest = data[data.length - 1];
+                    prices = {
+                        fine_gold_tola: parseFloat(latest.fine_gold_tola) || 0,
+                        fine_gold_gram: parseFloat(latest.fine_gold_gram) || 0,
+                        tejabi_gold_tola: parseFloat(latest.tejabi_gold_tola) || 0,
+                        tejabi_gold_gram: parseFloat(latest.tejabi_gold_gram) || 0,
+                        silver_tola: parseFloat(latest.silver_tola) || 0,
+                        silver_gram: parseFloat(latest.silver_gram) || 0
+                    };
+                    
+                    document.getElementById('fineGoldTola').textContent = 'Rs. ' + prices.fine_gold_tola.toLocaleString();
+                    document.getElementById('tejabiGoldTola').textContent = 'Rs. ' + prices.tejabi_gold_tola.toLocaleString();
+                    document.getElementById('silverTola').textContent = 'Rs. ' + prices.silver_tola.toLocaleString();
+                    
+                    // Set default karat price
+                    document.getElementById('karat24Price').value = prices.fine_gold_tola;
+                }
+            } catch (error) {
+                console.error('Error loading prices:', error);
+            }
+        }
+        
+        loadPrices();
+
+        // Unit Converter
+        function convertUnit() {
+            const weight = parseFloat(document.getElementById('convertWeight').value);
+            const fromUnit = document.getElementById('convertFrom').value;
+            
+            if (!weight) {
+                alert('Please enter a weight');
+                return;
+            }
+            
+            let result;
+            if (fromUnit === 'gram') {
+                const tola = (weight / 11.66).toFixed(3);
+                result = `
+                    <div class="result-item">
+                        <span class="label">${weight} grams</span>
+                        <span class="value">= ${tola} tola</span>
+                    </div>
+                `;
+            } else {
+                const gram = (weight * 11.66).toFixed(2);
+                result = `
+                    <div class="result-item">
+                        <span class="label">${weight} tola</span>
+                        <span class="value">= ${gram} grams</span>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('convertResultContent').innerHTML = result;
+            document.getElementById('convertResult').style.display = 'block';
+        }
+
+        // Price Calculator
+        function calculatePrice() {
+            const metal = document.getElementById('priceMetal').value;
+            const weight = parseFloat(document.getElementById('priceWeight').value);
+            const unit = document.getElementById('priceUnit').value;
+            
+            if (!weight) {
+                alert('Please enter weight');
+                return;
+            }
+            
+            let pricePerUnit;
+            if (metal === 'fine') {
+                pricePerUnit = unit === 'tola' ? prices.fine_gold_tola : prices.fine_gold_gram;
+            } else if (metal === 'tejabi') {
+                pricePerUnit = unit === 'tola' ? prices.tejabi_gold_tola : prices.tejabi_gold_gram;
+            } else {
+                pricePerUnit = unit === 'tola' ? prices.silver_tola : prices.silver_gram;
+            }
+            
+            const totalPrice = Math.round(weight * pricePerUnit);
+            const weightInGram = unit === 'tola' ? (weight * 11.66).toFixed(2) : weight;
+            const weightInTola = unit === 'gram' ? (weight / 11.66).toFixed(3) : weight;
+            
+            const result = `
+                <div class="result-item">
+                    <span class="label">Weight</span>
+                    <span class="value">${weightInGram}g / ${weightInTola} tola</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Price per ${unit}</span>
+                    <span class="value">Rs. ${pricePerUnit.toLocaleString()}</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Total Price</span>
+                    <span class="value highlight">Rs. ${totalPrice.toLocaleString()}</span>
+                </div>
+            `;
+            
+            document.getElementById('priceResultContent').innerHTML = result;
+            document.getElementById('priceResult').style.display = 'block';
+        }
+
+        // Jewelry Price Calculator
+        function calculateJewelry() {
+            const weight = parseFloat(document.getElementById('jewelryWeight').value);
+            const makingCharge = parseFloat(document.getElementById('makingCharge').value) || 1000;
+            const wastage = parseFloat(document.getElementById('wastage').value) || 8;
+            
+            if (!weight) {
+                alert('Please enter weight');
+                return;
+            }
+            
+            const goldValue = weight * prices.tejabi_gold_tola;
+            const makingCharges = weight * makingCharge;
+            const wastageCharges = goldValue * (wastage / 100);
+            const totalPrice = goldValue + makingCharges + wastageCharges;
+            
+            const result = `
+                <div class="result-item">
+                    <span class="label">Gold Value</span>
+                    <span class="value">Rs. ${Math.round(goldValue).toLocaleString()}</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Making Charges</span>
+                    <span class="value">Rs. ${Math.round(makingCharges).toLocaleString()}</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Wastage (${wastage}%)</span>
+                    <span class="value">Rs. ${Math.round(wastageCharges).toLocaleString()}</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Total Price</span>
+                    <span class="value highlight">Rs. ${Math.round(totalPrice).toLocaleString()}</span>
+                </div>
+            `;
+            
+            document.getElementById('jewelryResultContent').innerHTML = result;
+            document.getElementById('jewelryResult').style.display = 'block';
+        }
+
+        // Karat Price Converter
+        function showKaratPrices() {
+            const price24K = parseFloat(document.getElementById('karat24Price').value);
+            
+            if (!price24K) {
+                alert('Please enter 24K price');
+                return;
+            }
+            
+            const karats = {
+                '24K': 0.999,
+                '22K': 0.916,
+                '18K': 0.750,
+                '14K': 0.585
+            };
+            
+            let gridHTML = '';
+            for (const [karat, purity] of Object.entries(karats)) {
+                const price = Math.round(price24K * purity);
+                gridHTML += `
+                    <div class="karat-item">
+                        <div class="karat">${karat}</div>
+                        <div class="purity">${(purity * 100).toFixed(1)}% pure</div>
+                        <div class="price">Rs. ${price.toLocaleString()}</div>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('karatGrid').innerHTML = gridHTML;
+            document.getElementById('karatResult').style.display = 'block';
+        }
+
+        // Investment Calculator
+        function calculateInvestment() {
+            const initial = parseFloat(document.getElementById('invInitial').value) || 0;
+            const monthly = parseFloat(document.getElementById('invMonthly').value) || 0;
+            const years = parseFloat(document.getElementById('invYears').value) || 5;
+            const returnRate = parseFloat(document.getElementById('invReturn').value) || 8;
+            
+            const months = years * 12;
+            const monthlyRate = returnRate / 100 / 12;
+            
+            const fvInitial = initial * Math.pow(1 + monthlyRate, months);
+            const fvSIP = monthly * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate) * (1 + monthlyRate);
+            const totalValue = fvInitial + fvSIP;
+            const totalInvested = initial + (monthly * months);
+            const profit = totalValue - totalInvested;
+            
+            const goldCanBuy = totalValue / prices.fine_gold_tola;
+            
+            const result = `
+                <div class="result-item">
+                    <span class="label">Total Invested</span>
+                    <span class="value">Rs. ${Math.round(totalInvested).toLocaleString()}</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Future Value</span>
+                    <span class="value highlight">Rs. ${Math.round(totalValue).toLocaleString()}</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Profit</span>
+                    <span class="value ${profit >= 0 ? '' : 'negative'}">Rs. ${Math.round(profit).toLocaleString()}</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Return %</span>
+                    <span class="value">${((profit / totalInvested) * 100).toFixed(2)}%</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Gold You Can Buy</span>
+                    <span class="value">${goldCanBuy.toFixed(3)} tola</span>
+                </div>
+            `;
+            
+            document.getElementById('invResultContent').innerHTML = result;
+            document.getElementById('invResult').style.display = 'block';
+        }
+
+        // Investment Comparison
+        function compareInvestments() {
+            const amount = parseFloat(document.getElementById('compareAmount').value);
+            const years = parseFloat(document.getElementById('compareYears').value) || 5;
+            
+            if (!amount) {
+                alert('Please enter investment amount');
+                return;
+            }
+            
+            const calculateFV = (principal, rate, time) => {
+                return principal * Math.pow(1 + rate / 100, time);
+            };
+            
+            const goldFV = calculateFV(amount, 8, years);
+            const fdFV = calculateFV(amount, 6, years);
+            const stockFV = calculateFV(amount, 12, years);
+            
+            const goldCanBuy = goldFV / prices.fine_gold_tola;
+            
+            const tableHTML = `
+                <tr>
+                    <th>Investment</th>
+                    <th>Return Rate</th>
+                    <th>Future Value</th>
+                    <th>Gold Equivalent</th>
+                </tr>
+                <tr class="best">
+                    <td>Stock Market</td>
+                    <td>12%</td>
+                    <td>Rs. ${Math.round(stockFV).toLocaleString()}</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>Gold</td>
+                    <td>8%</td>
+                    <td>Rs. ${Math.round(goldFV).toLocaleString()}</td>
+                    <td>${goldCanBuy.toFixed(3)} tola</td>
+                </tr>
+                <tr>
+                    <td>Fixed Deposit</td>
+                    <td>6%</td>
+                    <td>Rs. ${Math.round(fdFV).toLocaleString()}</td>
+                    <td>-</td>
+                </tr>
+            `;
+            
+            document.getElementById('compareTable').innerHTML = tableHTML;
+            document.getElementById('compareResult').style.display = 'block';
+        }
+
+        // Profit/Loss Calculator
+        function calculateProfitLoss() {
+            const purchasePrice = parseFloat(document.getElementById('plPurchasePrice').value);
+            const weight = parseFloat(document.getElementById('plWeight').value);
+            
+            if (!purchasePrice || !weight) {
+                alert('Please enter all fields');
+                return;
+            }
+            
+            const currentPrice = prices.fine_gold_tola;
+            const purchaseValue = purchasePrice * weight;
+            const currentValue = currentPrice * weight;
+            const profitLoss = currentValue - purchaseValue;
+            const profitLossPercent = ((profitLoss / purchaseValue) * 100).toFixed(2);
+            
+            const result = `
+                <div class="result-item">
+                    <span class="label">Purchase Value</span>
+                    <span class="value">Rs. ${Math.round(purchaseValue).toLocaleString()}</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Current Value</span>
+                    <span class="value">Rs. ${Math.round(currentValue).toLocaleString()}</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">${profitLoss >= 0 ? 'Profit' : 'Loss'}</span>
+                    <span class="value ${profitLoss >= 0 ? 'highlight' : 'negative'}">
+                        Rs. ${Math.abs(Math.round(profitLoss)).toLocaleString()} (${profitLossPercent}%)
+                    </span>
+                </div>
+            `;
+            
+            document.getElementById('plResultContent').innerHTML = result;
+            document.getElementById('plResult').style.display = 'block';
+        }
+
+        // Selling Price Calculator
+        function calculateSellingPrice() {
+            const weight = parseFloat(document.getElementById('sellWeight').value);
+            const type = document.getElementById('sellType').value;
+            const rate = parseFloat(document.getElementById('sellRate').value) || 97;
+            
+            if (!weight) {
+                alert('Please enter weight');
+                return;
+            }
+            
+            const marketPrice = type === 'fine' ? prices.fine_gold_tola : prices.tejabi_gold_tola;
+            const marketValue = weight * marketPrice;
+            const sellingPrice = marketValue * (rate / 100);
+            const deduction = marketValue - sellingPrice;
+            
+            const result = `
+                <div class="result-item">
+                    <span class="label">Market Value</span>
+                    <span class="value">Rs. ${Math.round(marketValue).toLocaleString()}</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Buy-Back Rate</span>
+                    <span class="value">${rate}%</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Deduction</span>
+                    <span class="value negative">Rs. ${Math.round(deduction).toLocaleString()}</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">You Will Receive</span>
+                    <span class="value highlight">Rs. ${Math.round(sellingPrice).toLocaleString()}</span>
+                </div>
+            `;
+            
+            document.getElementById('sellResultContent').innerHTML = result;
+            document.getElementById('sellResult').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
