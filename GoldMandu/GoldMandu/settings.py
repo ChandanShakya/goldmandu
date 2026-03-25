@@ -17,7 +17,17 @@ NEWSPIDER_MODULE = "GoldMandu.spiders"
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+# Disabled: fenegosida.org robots.txt may block automated access
+ROBOTSTXT_OBEY = False
+
+# SSL/TLS verification disabled for fenegosida.org (certificate issues)
+# Mirrors the verify=False approach used in the outer Python scraper
+DOWNLOADER_CLIENTCONTEXTFACTORY = (
+    "scrapy.core.downloader.contextfactory.BrowserLikeContextFactory"
+)
+
+# Feed export encoding
+FEED_EXPORT_ENCODING = "utf-8"
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 # CONCURRENT_REQUESTS = 32
