@@ -1132,7 +1132,7 @@ body.dark-mode.dashboard-page #dark-mode-icon {
 }
 
 .custom-apply-btn {
-    padding: 7px 16px !important;
+    padding: 7px 16px;
     height: fit-content;
 }
 

@@ -180,7 +180,7 @@ function updateChartRange(chartKey, range) {
     activeRanges[chartKey] = range;
 
     if (range === 'CUSTOM') {
-        showCustomRangePanel();
+        showCustomRangeControls(chartKey);
         applyCustomRange(chartKey);
         return;
     }
