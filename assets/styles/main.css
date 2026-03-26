@@ -167,8 +167,8 @@ body.dark-mode .silver {
 .calc-section .btn:hover,
 .calc-section .btn:focus {
     transform: translateY(-2px);
-    border-left-color: var(--gold-dark);
     border-color: var(--gold-color);
+    border-left-color: var(--gold-dark);
     box-shadow: 0 6px 20px rgba(212, 175, 55, 0.25);
     outline: none;
 }
@@ -258,8 +258,8 @@ body.dark-mode .silver {
 .calc-section .btn:hover,
 .calc-section .btn:focus {
     transform: translateY(-2px);
-    border-left-color: var(--gold-dark);
     border-color: var(--gold-color);
+    border-left-color: var(--gold-dark);
     box-shadow: 0 6px 20px rgba(212, 175, 55, 0.25);
     outline: none;
 }
@@ -293,12 +293,83 @@ body.dark-mode .silver {
     }
 }
 
-    /* Adjust the styles to make each element appear on a new line */
-    .fine-gold,
-    .tejabi-gold,
-    .silver {
-        width: 100%;
-        max-width: 100%;
-        margin-bottom: 20px;
-    }
+/* Insights Section */
+.insights-section {
+    margin: 20px 0;
+}
+
+.insights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-top: 12px;
+}
+
+.insight-card {
+    background: var(--card-bg, #fff);
+    border: 1px solid var(--border-color, #e0e0e0);
+    border-left: 4px solid var(--gold-color, #FFD700);
+    border-radius: 8px;
+    padding: 14px 16px;
+    text-align: left;
+}
+
+.insight-card .insight-label {
+    font-size: 0.8rem;
+    color: #666;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.insight-card .insight-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-color, #333);
+}
+
+.insight-card.positive .insight-value { color: #22c55e; }
+.insight-card.negative .insight-value { color: #ef4444; }
+
+body.dark-mode .insight-card {
+    background: #444;
+    border-color: #555;
+    color: #fff;
+}
+
+body.dark-mode .insight-card .insight-label { color: #aaa; }
+body.dark-mode .insight-card .insight-value { color: #fff; }
+
+/* Chart controls */
+.chart-controls {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.chart-range-btn {
+    padding: 4px 12px;
+    border: 1px solid var(--gold-color, #FFD700);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--text-color, #333);
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.chart-range-btn.active,
+.chart-range-btn:hover {
+    background: var(--gold-color, #FFD700);
+    color: #333;
+}
+
+body.dark-mode .chart-range-btn {
+    color: #fff;
+}
+
+body.dark-mode .chart-range-btn.active,
+body.dark-mode .chart-range-btn:hover {
+    color: #333;
 }

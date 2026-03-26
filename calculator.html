@@ -211,6 +211,14 @@
 
     <script src="calculator.js"></script>
     <script>
+        function fmtNPR(n) {
+            if (!n || !isFinite(n)) return 'N/A';
+            const s = Math.round(n).toString();
+            const last3 = s.slice(-3);
+            const rest = s.slice(0, -3);
+            return 'Rs. ' + (rest ? rest.replace(/\B(?=(\d{2})+(?!\d))/g, ',') + ',' + last3 : last3);
+        }
+
         // Load current prices on page load
         let prices = {};
         
@@ -229,9 +237,9 @@
                         silver_gram: parseFloat(latest.silver_gram) || 0
                     };
                     
-                    document.getElementById('fineGoldTola').textContent = 'Rs. ' + prices.fine_gold_tola.toLocaleString();
-                    document.getElementById('tejabiGoldTola').textContent = 'Rs. ' + prices.tejabi_gold_tola.toLocaleString();
-                    document.getElementById('silverTola').textContent = 'Rs. ' + prices.silver_tola.toLocaleString();
+                    document.getElementById('fineGoldTola').textContent = fmtNPR(prices.fine_gold_tola);
+                    document.getElementById('tejabiGoldTola').textContent = fmtNPR(prices.tejabi_gold_tola);
+                    document.getElementById('silverTola').textContent = fmtNPR(prices.silver_tola);
                     
                     // Set default karat price
                     document.getElementById('karat24Price').value = prices.fine_gold_tola;
@@ -307,11 +315,11 @@
                 </div>
                 <div class="result-item">
                     <span class="label">Price per ${unit}</span>
-                    <span class="value">Rs. ${pricePerUnit.toLocaleString()}</span>
+                    <span class="value">${fmtNPR(pricePerUnit)}</span>
                 </div>
                 <div class="result-item">
                     <span class="label">Total Price</span>
-                    <span class="value highlight">Rs. ${totalPrice.toLocaleString()}</span>
+                    <span class="value highlight">${fmtNPR(totalPrice)}</span>
                 </div>
             `;
             
@@ -338,19 +346,19 @@
             const result = `
                 <div class="result-item">
                     <span class="label">Gold Value</span>
-                    <span class="value">Rs. ${Math.round(goldValue).toLocaleString()}</span>
+                    <span class="value">${fmtNPR(Math.round(goldValue))}</span>
                 </div>
                 <div class="result-item">
                     <span class="label">Making Charges</span>
-                    <span class="value">Rs. ${Math.round(makingCharges).toLocaleString()}</span>
+                    <span class="value">${fmtNPR(Math.round(makingCharges))}</span>
                 </div>
                 <div class="result-item">
                     <span class="label">Wastage (${wastage}%)</span>
-                    <span class="value">Rs. ${Math.round(wastageCharges).toLocaleString()}</span>
+                    <span class="value">${fmtNPR(Math.round(wastageCharges))}</span>
                 </div>
                 <div class="result-item">
                     <span class="label">Total Price</span>
-                    <span class="value highlight">Rs. ${Math.round(totalPrice).toLocaleString()}</span>
+                    <span class="value highlight">${fmtNPR(Math.round(totalPrice))}</span>
                 </div>
             `;
             
@@ -381,7 +389,7 @@
                     <div class="karat-item">
                         <div class="karat">${karat}</div>
                         <div class="purity">${(purity * 100).toFixed(1)}% pure</div>
-                        <div class="price">Rs. ${price.toLocaleString()}</div>
+                        <div class="price">${fmtNPR(price)}</div>
                     </div>
                 `;
             }
@@ -411,15 +419,15 @@
             const result = `
                 <div class="result-item">
                     <span class="label">Total Invested</span>
-                    <span class="value">Rs. ${Math.round(totalInvested).toLocaleString()}</span>
+                    <span class="value">${fmtNPR(Math.round(totalInvested))}</span>
                 </div>
                 <div class="result-item">
                     <span class="label">Future Value</span>
-                    <span class="value highlight">Rs. ${Math.round(totalValue).toLocaleString()}</span>
+                    <span class="value highlight">${fmtNPR(Math.round(totalValue))}</span>
                 </div>
                 <div class="result-item">
                     <span class="label">Profit</span>
-                    <span class="value ${profit >= 0 ? '' : 'negative'}">Rs. ${Math.round(profit).toLocaleString()}</span>
+                    <span class="value ${profit >= 0 ? '' : 'negative'}">${fmtNPR(Math.round(profit))}</span>
                 </div>
                 <div class="result-item">
                     <span class="label">Return %</span>
@@ -465,19 +473,19 @@
                 <tr class="best">
                     <td>Stock Market</td>
                     <td>12%</td>
-                    <td>Rs. ${Math.round(stockFV).toLocaleString()}</td>
+                    <td>${fmtNPR(Math.round(stockFV))}</td>
                     <td>-</td>
                 </tr>
                 <tr>
                     <td>Gold</td>
                     <td>8%</td>
-                    <td>Rs. ${Math.round(goldFV).toLocaleString()}</td>
+                    <td>${fmtNPR(Math.round(goldFV))}</td>
                     <td>${goldCanBuy.toFixed(3)} tola</td>
                 </tr>
                 <tr>
                     <td>Fixed Deposit</td>
                     <td>6%</td>
-                    <td>Rs. ${Math.round(fdFV).toLocaleString()}</td>
+                    <td>${fmtNPR(Math.round(fdFV))}</td>
                     <td>-</td>
                 </tr>
             `;
@@ -505,16 +513,16 @@
             const result = `
                 <div class="result-item">
                     <span class="label">Purchase Value</span>
-                    <span class="value">Rs. ${Math.round(purchaseValue).toLocaleString()}</span>
+                    <span class="value">${fmtNPR(Math.round(purchaseValue))}</span>
                 </div>
                 <div class="result-item">
                     <span class="label">Current Value</span>
-                    <span class="value">Rs. ${Math.round(currentValue).toLocaleString()}</span>
+                    <span class="value">${fmtNPR(Math.round(currentValue))}</span>
                 </div>
                 <div class="result-item">
                     <span class="label">${profitLoss >= 0 ? 'Profit' : 'Loss'}</span>
                     <span class="value ${profitLoss >= 0 ? 'highlight' : 'negative'}">
-                        Rs. ${Math.abs(Math.round(profitLoss)).toLocaleString()} (${profitLossPercent}%)
+                        ${fmtNPR(Math.abs(Math.round(profitLoss)))} (${profitLossPercent}%)
                     </span>
                 </div>
             `;
@@ -542,7 +550,7 @@
             const result = `
                 <div class="result-item">
                     <span class="label">Market Value</span>
-                    <span class="value">Rs. ${Math.round(marketValue).toLocaleString()}</span>
+                    <span class="value">${fmtNPR(Math.round(marketValue))}</span>
                 </div>
                 <div class="result-item">
                     <span class="label">Buy-Back Rate</span>
@@ -550,11 +558,11 @@
                 </div>
                 <div class="result-item">
                     <span class="label">Deduction</span>
-                    <span class="value negative">Rs. ${Math.round(deduction).toLocaleString()}</span>
+                    <span class="value negative">${fmtNPR(Math.round(deduction))}</span>
                 </div>
                 <div class="result-item">
                     <span class="label">You Will Receive</span>
-                    <span class="value highlight">Rs. ${Math.round(sellingPrice).toLocaleString()}</span>
+                    <span class="value highlight">${fmtNPR(Math.round(sellingPrice))}</span>
                 </div>
             `;
             

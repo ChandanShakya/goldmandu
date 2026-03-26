@@ -374,8 +374,10 @@ function analyzePriceTrend(historicalData) {
         return { error: 'Insufficient data for analysis' };
     }
     
-    const prices = historicalData.map(d => parseFloat(d.fine_gold_tola));
+    const prices = historicalData.map(d => parseFloat(d.fine_gold_tola)).filter(Number.isFinite);
     const dates = historicalData.map(d => `${d.day} ${d.month} ${d.year}`);
+    
+    if (prices.length === 0) return { error: 'No valid price data' };
     
     const currentPrice = prices[prices.length - 1];
     const previousPrice = prices[prices.length - 2];
@@ -467,7 +469,11 @@ function convertInternationalGoldPrice(usdPerOunce) {
  * @returns {string} Formatted currency string
  */
 function formatCurrency(amount) {
-    return 'Rs. ' + amount.toLocaleString('en-IN');
+    if (!Number.isFinite(amount)) return 'N/A';
+    const s = Math.round(amount).toString();
+    const last3 = s.slice(-3);
+    const rest = s.slice(0, -3);
+    return 'Rs. ' + (rest ? rest.replace(/\B(?=(\d{2})+(?!\d))/g, ',') + ',' + last3 : last3);
 }
 
 /**
