@@ -82,6 +82,7 @@
                                 <button class="chart-range-btn" data-chart="fineGold" data-range="6M">6M</button>
                                 <button class="chart-range-btn" data-chart="fineGold" data-range="1Y">1Y</button>
                                 <button class="chart-range-btn active" data-chart="fineGold" data-range="ALL">ALL</button>
+                                <button class="chart-range-btn" data-chart="fineGold" data-range="CUSTOM">Custom</button>
                             </div>
                         </div>
                         <div class="canvas-wrapper">
@@ -97,6 +98,7 @@
                                 <button class="chart-range-btn" data-chart="tejabiGold" data-range="6M">6M</button>
                                 <button class="chart-range-btn" data-chart="tejabiGold" data-range="1Y">1Y</button>
                                 <button class="chart-range-btn active" data-chart="tejabiGold" data-range="ALL">ALL</button>
+                                <button class="chart-range-btn" data-chart="tejabiGold" data-range="CUSTOM">Custom</button>
                             </div>
                         </div>
                         <div class="canvas-wrapper">
@@ -112,11 +114,27 @@
                                 <button class="chart-range-btn" data-chart="silver" data-range="6M">6M</button>
                                 <button class="chart-range-btn" data-chart="silver" data-range="1Y">1Y</button>
                                 <button class="chart-range-btn active" data-chart="silver" data-range="ALL">ALL</button>
+                                <button class="chart-range-btn" data-chart="silver" data-range="CUSTOM">Custom</button>
                             </div>
                         </div>
                         <div class="canvas-wrapper">
                             <canvas id="silverChart"></canvas>
                         </div>
+                    </div>
+                </div>
+
+                <div class="custom-range-panel" id="customRangePanel" hidden>
+                    <h4>Custom Date Range</h4>
+                    <div class="custom-range-inputs">
+                        <label>
+                            From
+                            <select id="customRangeFrom"></select>
+                        </label>
+                        <label>
+                            To
+                            <select id="customRangeTo"></select>
+                        </label>
+                        <button class="chart-range-btn custom-apply-btn" id="applyCustomRangeBtn">Apply</button>
                     </div>
                 </div>
             </section>

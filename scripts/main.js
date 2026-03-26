@@ -106,6 +106,33 @@ function renderInsights(insights) {
 
 let allChartData = null; // Will hold { labels, fineGold, tejabiGold, silver }
 const charts = {}; // Will hold { fineGold: Chart, tejabiGold: Chart, silver: Chart }
+const activeRanges = { fineGold: 'ALL', tejabiGold: 'ALL', silver: 'ALL' };
+
+function getDataForChart(chartKey, filtered) {
+    if (!filtered) return [];
+    if (chartKey === 'fineGold') return filtered.fineGold;
+    if (chartKey === 'tejabiGold') return filtered.tejabiGold;
+    if (chartKey === 'silver') return filtered.silver;
+    return [];
+}
+
+function filterByCustomRange(fromLabel, toLabel) {
+    if (!allChartData) return null;
+    const { labels, fineGold, tejabiGold, silver } = allChartData;
+    const fromIdx = labels.indexOf(fromLabel);
+    const toIdx = labels.indexOf(toLabel);
+
+    if (fromIdx < 0 || toIdx < 0) return null;
+    const start = Math.min(fromIdx, toIdx);
+    const end = Math.max(fromIdx, toIdx);
+
+    return {
+        labels: labels.slice(start, end + 1),
+        fineGold: fineGold.slice(start, end + 1),
+        tejabiGold: tejabiGold.slice(start, end + 1),
+        silver: silver.slice(start, end + 1)
+    };
+}
 
 function filterByRange(range) {
     if (!allChartData) return allChartData;
@@ -129,17 +156,72 @@ function updateChartRange(chartKey, range) {
     const chart = charts[chartKey];
     if (!chart || !allChartData) return;
 
-    const filtered = filterByRange(range);
-    const dataMap = { fineGold: filtered.fineGold, tejabiGold: filtered.tejabiGold, silver: filtered.silver };
+    activeRanges[chartKey] = range;
 
+    if (range === 'CUSTOM') {
+        showCustomRangePanel();
+        applyCustomRange(chartKey);
+        return;
+    }
+
+    const filtered = filterByRange(range);
     chart.data.labels = filtered.labels;
-    chart.data.datasets[0].data = dataMap[chartKey];
+    chart.data.datasets[0].data = getDataForChart(chartKey, filtered);
     chart.update('none');
+}
+
+function buildCustomRangeSelectors() {
+    if (!allChartData) return;
+    const fromEl = document.getElementById('customRangeFrom');
+    const toEl = document.getElementById('customRangeTo');
+    if (!fromEl || !toEl) return;
+
+    const optionsHtml = allChartData.labels
+        .map(label => `<option value="${label}">${label}</option>`)
+        .join('');
+
+    fromEl.innerHTML = optionsHtml;
+    toEl.innerHTML = optionsHtml;
+
+    fromEl.selectedIndex = 0;
+    toEl.selectedIndex = allChartData.labels.length - 1;
+}
+
+function showCustomRangePanel() {
+    const panel = document.getElementById('customRangePanel');
+    if (panel) panel.hidden = false;
+}
+
+function hideCustomRangePanelIfUnused() {
+    const panel = document.getElementById('customRangePanel');
+    if (!panel) return;
+    const anyCustom = Object.values(activeRanges).some(range => range === 'CUSTOM');
+    panel.hidden = !anyCustom;
+}
+
+function applyCustomRange(targetChartKey = null) {
+    if (!allChartData) return;
+    const fromEl = document.getElementById('customRangeFrom');
+    const toEl = document.getElementById('customRangeTo');
+    if (!fromEl || !toEl) return;
+
+    const filtered = filterByCustomRange(fromEl.value, toEl.value);
+    if (!filtered || filtered.labels.length === 0) return;
+
+    const keys = targetChartKey ? [targetChartKey] : Object.keys(charts);
+    keys.forEach(chartKey => {
+        const chart = charts[chartKey];
+        if (!chart) return;
+
+        chart.data.labels = filtered.labels;
+        chart.data.datasets[0].data = getDataForChart(chartKey, filtered);
+        chart.update('none');
+    });
 }
 
 // Wire up range buttons after DOM load
 function setupRangeButtons() {
-        document.querySelectorAll('.chart-range-btn').forEach(btn => {
+    document.querySelectorAll('.chart-range-btn[data-range]').forEach(btn => {
         btn.addEventListener('click', () => {
             const chartKey = btn.dataset.chart;
             const range = btn.dataset.range;
@@ -149,8 +231,20 @@ function setupRangeButtons() {
             btn.classList.add('active');
 
             updateChartRange(chartKey, range);
+            if (range !== 'CUSTOM') hideCustomRangePanelIfUnused();
         });
     });
+
+    const applyBtn = document.getElementById('applyCustomRangeBtn');
+    if (applyBtn) {
+        applyBtn.addEventListener('click', () => {
+            const customCharts = Object.keys(activeRanges).filter(k => activeRanges[k] === 'CUSTOM');
+            if (customCharts.length === 0) return;
+            customCharts.forEach(chartKey => {
+                applyCustomRange(chartKey);
+            });
+        });
+    }
 }
 
 // ============================================
@@ -315,6 +409,7 @@ fetch('Values.json')
 
         // Store globally for range filtering
         allChartData = { labels, fineGold: fineGoldPrices, tejabiGold: tejabiGoldPrices, silver: silverPrices };
+        buildCustomRangeSelectors();
 
         createCharts(labels, fineGoldPrices, tejabiGoldPrices, silverPrices);
         setupRangeButtons();
