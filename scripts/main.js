@@ -108,6 +108,27 @@ let allChartData = null; // Will hold { labels, fineGold, tejabiGold, silver }
 const charts = {}; // Will hold { fineGold: Chart, tejabiGold: Chart, silver: Chart }
 const activeRanges = { fineGold: 'ALL', tejabiGold: 'ALL', silver: 'ALL' };
 
+const customRangeElements = {
+    fineGold: {
+        wrapper: 'fineGoldCustomControls',
+        from: 'fineGoldRangeFrom',
+        to: 'fineGoldRangeTo',
+        apply: 'fineGoldApplyBtn'
+    },
+    tejabiGold: {
+        wrapper: 'tejabiGoldCustomControls',
+        from: 'tejabiGoldRangeFrom',
+        to: 'tejabiGoldRangeTo',
+        apply: 'tejabiGoldApplyBtn'
+    },
+    silver: {
+        wrapper: 'silverCustomControls',
+        from: 'silverRangeFrom',
+        to: 'silverRangeTo',
+        apply: 'silverApplyBtn'
+    }
+};
+
 function getDataForChart(chartKey, filtered) {
     if (!filtered) return [];
     if (chartKey === 'fineGold') return filtered.fineGold;
@@ -172,46 +193,61 @@ function updateChartRange(chartKey, range) {
 
 function buildCustomRangeSelectors() {
     if (!allChartData) return;
-    const fromEl = document.getElementById('customRangeFrom');
-    const toEl = document.getElementById('customRangeTo');
-    if (!fromEl || !toEl) return;
 
-    const optionsHtml = allChartData.labels
+    const descLabels = [...allChartData.labels].reverse();
+    const optionsHtml = descLabels
         .map(label => `<option value="${label}">${label}</option>`)
         .join('');
 
-    fromEl.innerHTML = optionsHtml;
-    toEl.innerHTML = optionsHtml;
+    Object.values(customRangeElements).forEach(ids => {
+        const fromEl = document.getElementById(ids.from);
+        const toEl = document.getElementById(ids.to);
+        if (!fromEl || !toEl) return;
 
-    fromEl.selectedIndex = 0;
-    toEl.selectedIndex = allChartData.labels.length - 1;
+        fromEl.innerHTML = optionsHtml;
+        toEl.innerHTML = optionsHtml;
+
+        fromEl.selectedIndex = descLabels.length - 1;
+        toEl.selectedIndex = 0;
+    });
 }
 
-function showCustomRangePanel() {
-    const panel = document.getElementById('customRangePanel');
-    if (panel) panel.hidden = false;
+function showCustomRangeControls(chartKey) {
+    const ids = customRangeElements[chartKey];
+    if (!ids) return;
+    const wrapper = document.getElementById(ids.wrapper);
+    if (wrapper) wrapper.hidden = false;
 }
 
-function hideCustomRangePanelIfUnused() {
-    const panel = document.getElementById('customRangePanel');
-    if (!panel) return;
-    const anyCustom = Object.values(activeRanges).some(range => range === 'CUSTOM');
-    panel.hidden = !anyCustom;
+function hideCustomRangeControlsIfUnused(chartKey = null) {
+    if (chartKey) {
+        const ids = customRangeElements[chartKey];
+        if (!ids) return;
+        const wrapper = document.getElementById(ids.wrapper);
+        if (wrapper) wrapper.hidden = activeRanges[chartKey] !== 'CUSTOM';
+        return;
+    }
+
+    Object.entries(customRangeElements).forEach(([key, ids]) => {
+        const wrapper = document.getElementById(ids.wrapper);
+        if (wrapper) wrapper.hidden = activeRanges[key] !== 'CUSTOM';
+    });
 }
 
 function applyCustomRange(targetChartKey = null) {
     if (!allChartData) return;
-    const fromEl = document.getElementById('customRangeFrom');
-    const toEl = document.getElementById('customRangeTo');
-    if (!fromEl || !toEl) return;
-
-    const filtered = filterByCustomRange(fromEl.value, toEl.value);
-    if (!filtered || filtered.labels.length === 0) return;
 
     const keys = targetChartKey ? [targetChartKey] : Object.keys(charts);
     keys.forEach(chartKey => {
+        const ids = customRangeElements[chartKey];
+        if (!ids) return;
+        const fromEl = document.getElementById(ids.from);
+        const toEl = document.getElementById(ids.to);
         const chart = charts[chartKey];
-        if (!chart) return;
+        if (!fromEl || !toEl || !chart) return;
+
+        const filtered = filterByCustomRange(fromEl.value, toEl.value);
+        if (!filtered || filtered.labels.length === 0) return;
 
         chart.data.labels = filtered.labels;
         chart.data.datasets[0].data = getDataForChart(chartKey, filtered);
@@ -231,20 +267,15 @@ function setupRangeButtons() {
             btn.classList.add('active');
 
             updateChartRange(chartKey, range);
-            if (range !== 'CUSTOM') hideCustomRangePanelIfUnused();
+            if (range !== 'CUSTOM') hideCustomRangeControlsIfUnused(chartKey);
         });
     });
 
-    const applyBtn = document.getElementById('applyCustomRangeBtn');
-    if (applyBtn) {
-        applyBtn.addEventListener('click', () => {
-            const customCharts = Object.keys(activeRanges).filter(k => activeRanges[k] === 'CUSTOM');
-            if (customCharts.length === 0) return;
-            customCharts.forEach(chartKey => {
-                applyCustomRange(chartKey);
-            });
-        });
-    }
+    Object.entries(customRangeElements).forEach(([chartKey, ids]) => {
+        const applyBtn = document.getElementById(ids.apply);
+        if (!applyBtn) return;
+        applyBtn.addEventListener('click', () => applyCustomRange(chartKey));
+    });
 }
 
 // ============================================

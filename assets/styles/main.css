@@ -1026,6 +1026,44 @@ body.dark-mode.dashboard-page #dark-mode-icon {
 .dashboard-chart-card .chart-controls {
     display: flex;
     gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.chart-custom-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.chart-custom-inline select {
+    min-width: 160px;
+    max-width: 220px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--dash-card-border);
+    background: transparent;
+    color: var(--dash-text);
+    font-family: 'Archivo Narrow', sans-serif;
+    font-size: 0.9rem;
+}
+
+.chart-custom-inline .custom-apply-btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--dash-gold-text);
+    background: transparent;
+    color: var(--dash-text);
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-family: 'Archivo Narrow', sans-serif;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.chart-custom-inline .custom-apply-btn:hover {
+    background: var(--dash-gold-text);
+    color: #111;
 }
 
 .dashboard-chart-card .chart-range-btn {
@@ -1119,6 +1157,20 @@ body.dark-mode.dashboard-page #dark-mode-icon {
     .dashboard-chart-card .chart-header {
         flex-direction: column;
         align-items: flex-start;
+    }
+
+    .chart-custom-inline {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .chart-custom-inline select {
+        min-width: 0;
+        flex: 1 1 160px;
+    }
+
+    .chart-custom-inline .custom-apply-btn {
+        width: auto;
     }
 
     .custom-range-inputs {
