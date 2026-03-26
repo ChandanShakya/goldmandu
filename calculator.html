@@ -165,16 +165,31 @@
             <div class="card calculator-tool-card">
                 <h2>Profit/Loss Calculator</h2>
                 <div class="form-group">
-                    <label>Purchase Price per Tola (Rs.)</label>
-                    <input type="number" class="input" id="plPurchasePrice" placeholder="Enter purchase price">
+                    <label>Purchase Date</label>
+                    <input type="date" class="input" id="plDate" onchange="updateProfitLossPrices()">
+                </div>
+                <div class="form-group">
+                    <label>Sell Date</label>
+                    <input type="date" class="input" id="plSellDate" onchange="updateProfitLossPrices()">
+                </div>
+                <div class="form-group">
+                    <label>Price Unit</label>
+                    <select class="select" id="plPriceUnit" onchange="updateProfitLossPrices()">
+                        <option value="tola">Per Tola</option>
+                        <option value="tenGram">Per 10 Gram</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label id="plPurchasePriceLabel">Purchase Price per Tola (Rs.)</label>
+                    <input type="number" class="input" id="plPurchasePrice" placeholder="Auto-loaded from selected purchase date">
+                </div>
+                <div class="form-group">
+                    <label id="plSellPriceLabel">Sell Price per Tola (Rs.)</label>
+                    <input type="number" class="input" id="plSellPrice" placeholder="Auto-loaded from selected sell date">
                 </div>
                 <div class="form-group">
                     <label>Weight Purchased (Tola)</label>
                     <input type="number" class="input" id="plWeight" placeholder="Enter weight" step="0.001">
-                </div>
-                <div class="form-group">
-                    <label>Purchase Date</label>
-                    <input type="date" id="plDate">
                 </div>
                 <button class="btn btn-primary" onclick="calculateProfitLoss()">Calculate</button>
                 <div class="result-box" id="plResult" >
@@ -222,12 +237,106 @@
 
         // Load current prices on page load
         let prices = {};
+        let historicalPrices = [];
+
+        function safePrice(v) {
+            const n = parseFloat(v);
+            return Number.isFinite(n) && n > 0 ? n : null;
+        }
+
+        function toInputDateString(dateObj) {
+            const y = dateObj.getFullYear();
+            const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+            const d = String(dateObj.getDate()).padStart(2, '0');
+            return `${y}-${m}-${d}`;
+        }
+
+        function getLatestValidIndex() {
+            for (let i = historicalPrices.length - 1; i >= 0; i--) {
+                if (safePrice(historicalPrices[i].fine_gold_tola) !== null) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        function getClosestHistoricalRecord(dateStr) {
+            if (!Array.isArray(historicalPrices) || historicalPrices.length === 0) return null;
+            const latestIdx = getLatestValidIndex();
+            if (latestIdx < 0) return null;
+
+            const selected = new Date(`${dateStr}T00:00:00`);
+            if (Number.isNaN(selected.getTime())) {
+                return historicalPrices[latestIdx];
+            }
+
+            const today = new Date();
+            const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            const diffDays = Math.floor((todayDate - selected) / (1000 * 60 * 60 * 24));
+            let idx = latestIdx - diffDays;
+            if (idx < 0) idx = 0;
+            if (idx >= historicalPrices.length) idx = historicalPrices.length - 1;
+
+            while (idx >= 0 && safePrice(historicalPrices[idx].fine_gold_tola) === null) {
+                idx--;
+            }
+
+            return idx >= 0 ? historicalPrices[idx] : historicalPrices[latestIdx];
+        }
+
+        function getFineGoldPriceByUnit(record, unit) {
+            if (!record) return null;
+            return unit === 'tenGram' ? safePrice(record.fine_gold_gram) : safePrice(record.fine_gold_tola);
+        }
+
+        function updateProfitLossPriceLabels(unit) {
+            const unitText = unit === 'tenGram' ? '10 Gram' : 'Tola';
+            document.getElementById('plPurchasePriceLabel').textContent = `Purchase Price per ${unitText} (Rs.)`;
+            document.getElementById('plSellPriceLabel').textContent = `Sell Price per ${unitText} (Rs.)`;
+        }
+
+        function initializeProfitLossDates() {
+            const today = new Date();
+            const defaultSellDate = toInputDateString(today);
+            const defaultPurchase = new Date(today);
+            defaultPurchase.setMonth(defaultPurchase.getMonth() - 1);
+
+            const plDateEl = document.getElementById('plDate');
+            const plSellDateEl = document.getElementById('plSellDate');
+
+            if (plSellDateEl && !plSellDateEl.value) plSellDateEl.value = defaultSellDate;
+            if (plDateEl && !plDateEl.value) plDateEl.value = toInputDateString(defaultPurchase);
+
+            updateProfitLossPrices();
+        }
+
+        function updateProfitLossPrices() {
+            const unit = document.getElementById('plPriceUnit').value;
+            const purchaseDate = document.getElementById('plDate').value;
+            const sellDate = document.getElementById('plSellDate').value;
+
+            updateProfitLossPriceLabels(unit);
+
+            const purchaseRecord = getClosestHistoricalRecord(purchaseDate);
+            const sellRecord = getClosestHistoricalRecord(sellDate);
+
+            const purchasePrice = getFineGoldPriceByUnit(purchaseRecord, unit);
+            const sellPrice = getFineGoldPriceByUnit(sellRecord, unit);
+
+            if (purchasePrice !== null) {
+                document.getElementById('plPurchasePrice').value = Math.round(purchasePrice);
+            }
+            if (sellPrice !== null) {
+                document.getElementById('plSellPrice').value = Math.round(sellPrice);
+            }
+        }
         
         async function loadPrices() {
             try {
                 const response = await fetch('Values.json');
                 const data = await response.json();
                 if (Array.isArray(data) && data.length > 0) {
+                    historicalPrices = data;
                     const latest = data[data.length - 1];
                     prices = {
                         fine_gold_tola: parseFloat(latest.fine_gold_tola) || 0,
@@ -244,6 +353,7 @@
                     
                     // Set default karat price
                     document.getElementById('karat24Price').value = prices.fine_gold_tola;
+                    initializeProfitLossDates();
                 }
             } catch (error) {
                 console.error('Error loading prices:', error);
@@ -315,7 +425,7 @@
                     <span class="value">${weightInGram}g / ${weightInTola} tola</span>
                 </div>
                 <div class="result-item">
-                    <span class="label">Price per ${unit}</span>
+                    <span class="label">Price per ${unit === 'gram' ? '10 Gram' : 'Tola'}</span>
                     <span class="value">${fmtNPR(pricePerUnit)}</span>
                 </div>
                 <div class="result-item">
@@ -498,26 +608,43 @@
         // Profit/Loss Calculator
         function calculateProfitLoss() {
             const purchasePrice = parseFloat(document.getElementById('plPurchasePrice').value);
+            const sellPrice = parseFloat(document.getElementById('plSellPrice').value);
             const weight = parseFloat(document.getElementById('plWeight').value);
+            const priceUnit = document.getElementById('plPriceUnit').value;
+            const purchaseDate = document.getElementById('plDate').value;
+            const sellDate = document.getElementById('plSellDate').value;
             
-            if (!purchasePrice || !weight) {
+            if (!purchasePrice || !sellPrice || !weight) {
                 alert('Please enter all fields');
                 return;
             }
+
+            const unitMultiplier = priceUnit === 'tenGram' ? (weight * 11.66) / 10 : weight;
             
-            const currentPrice = prices.fine_gold_tola;
-            const purchaseValue = purchasePrice * weight;
-            const currentValue = currentPrice * weight;
+            const purchaseValue = purchasePrice * unitMultiplier;
+            const currentValue = sellPrice * unitMultiplier;
             const profitLoss = currentValue - purchaseValue;
             const profitLossPercent = ((profitLoss / purchaseValue) * 100).toFixed(2);
             
             const result = `
                 <div class="result-item">
+                    <span class="label">Purchase Date</span>
+                    <span class="value">${purchaseDate || 'N/A'}</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Sell Date</span>
+                    <span class="value">${sellDate || 'N/A'}</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Price Unit</span>
+                    <span class="value">${priceUnit === 'tenGram' ? 'Per 10 Gram' : 'Per Tola'}</span>
+                </div>
+                <div class="result-item">
                     <span class="label">Purchase Value</span>
                     <span class="value">${fmtNPR(Math.round(purchaseValue))}</span>
                 </div>
                 <div class="result-item">
-                    <span class="label">Current Value</span>
+                    <span class="label">Sell Value</span>
                     <span class="value">${fmtNPR(Math.round(currentValue))}</span>
                 </div>
                 <div class="result-item">

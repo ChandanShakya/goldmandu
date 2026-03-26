@@ -290,11 +290,11 @@ fetch('Values.json')
             if (el) el.textContent = `${label}: ${val !== null ? formatNPR(val) : 'N/A'}`;
         };
         set('fine-gold-tola', 'Per Tola', fgt);
-        set('fine-gold-gram', 'Per Gram', fgg);
+        set('fine-gold-gram', 'Per 10 Gram', fgg);
         set('tejabi-gold-tola', 'Per Tola', tgt);
-        set('tejabi-gold-gram', 'Per Gram', tgg);
+        set('tejabi-gold-gram', 'Per 10 Gram', tgg);
         set('silver-tola', 'Per Tola', st);
-        set('silver-gram', 'Per Gram', sg);
+        set('silver-gram', 'Per 10 Gram', sg);
 
         // Insights
         const insights = computeInsights(data);
