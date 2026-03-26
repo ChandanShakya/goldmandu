@@ -6,34 +6,35 @@
     <title>Goldmandu - Gold & Silver Calculator</title>
     <link href="https://fonts.googleapis.com/css2?family=Khand:wght@400;500;600;700&family=Archivo+Narrow:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/khang-nd/7.css/7.css">
+    <link rel="stylesheet" href="assets/styles/main.css">
 </head>
-<body>
-    <div class="container">
-        <header>
-            <a href="index.html" class="btn btn--nav">Home</a>
-            <h1>Gold & Silver Calculator</h1>
-            <p>Calculate prices, conversions, and investment returns</p>
+<body class="calculator-page">
+    <div class="container calculator-container">
+        <header class="calculator-header">
+            <a href="index.html" class="btn btn--nav calculator-back-btn">Home</a>
+            <h1 class="calculator-title">Gold & Silver Calculator</h1>
+            <p class="calculator-subtitle">Calculate prices, conversions, and investment returns</p>
         </header>
 
         <!-- Current Prices Display -->
-        <div class="current-prices" id="currentPrices">
-            <div class="price-card">
+        <div class="current-prices calculator-prices-grid" id="currentPrices">
+            <div class="price-card calculator-price-card">
                 <h3>Fine Gold (24K) per Tola</h3>
                 <div class="price" id="fineGoldTola">Loading...</div>
             </div>
-            <div class="price-card">
+            <div class="price-card calculator-price-card">
                 <h3>Tejabi Gold (22K) per Tola</h3>
                 <div class="price" id="tejabiGoldTola">Loading...</div>
             </div>
-            <div class="price-card silver">
+            <div class="price-card silver calculator-price-card">
                 <h3>Silver per Tola</h3>
                 <div class="price" id="silverTola">Loading...</div>
             </div>
         </div>
 
-        <div class="grid columns" data-gap="20px">
+        <div class="grid columns calculator-main-grid" data-gap="20px">
             <!-- Unit Converter -->
-            <div class="card">
+            <div class="card calculator-tool-card">
                 <h2>Unit Converter</h2>
                 <div class="form-group">
                     <label>Weight</label>
@@ -53,7 +54,7 @@
             </div>
 
             <!-- Price Calculator -->
-            <div class="card">
+            <div class="card calculator-tool-card">
                 <h2>Price Calculator</h2>
                 <div class="form-group">
                     <label>Metal Type</label>
@@ -81,7 +82,7 @@
             </div>
 
             <!-- Jewelry Price Calculator -->
-            <div class="card">
+            <div class="card calculator-tool-card">
                 <h2>Jewelry Price Calculator</h2>
                 <div class="form-group">
                     <label>Gold Weight (Tola)</label>
@@ -103,7 +104,7 @@
             </div>
 
             <!-- Karat Price Converter -->
-            <div class="card">
+            <div class="card calculator-tool-card">
                 <h2>Karat Price Converter</h2>
                 <div class="form-group">
                     <label>24K Gold Price per Tola (Rs.)</label>
@@ -117,7 +118,7 @@
             </div>
 
             <!-- Gold Investment Calculator -->
-            <div class="card">
+            <div class="card calculator-tool-card">
                 <h2>Gold Investment Calculator</h2>
                 <div class="form-group">
                     <label>Initial Investment (Rs.)</label>
@@ -143,7 +144,7 @@
             </div>
 
             <!-- Investment Comparison -->
-            <div class="card">
+            <div class="card calculator-tool-card">
                 <h2>Investment Comparison</h2>
                 <div class="form-group">
                     <label>Investment Amount (Rs.)</label>
@@ -161,7 +162,7 @@
             </div>
 
             <!-- Profit/Loss Calculator -->
-            <div class="card">
+            <div class="card calculator-tool-card">
                 <h2>Profit/Loss Calculator</h2>
                 <div class="form-group">
                     <label>Purchase Price per Tola (Rs.)</label>
@@ -183,7 +184,7 @@
             </div>
 
             <!-- Selling Price Calculator -->
-            <div class="card">
+            <div class="card calculator-tool-card">
                 <h2>Selling Price Calculator</h2>
                 <div class="form-group">
                     <label>Gold Weight (Tola)</label>

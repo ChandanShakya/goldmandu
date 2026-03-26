@@ -5,106 +5,123 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GoldMandu - Nepal Gold & Silver Prices</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Khand:wght@400;500;600;700&family=Archivo+Narrow:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/khang-nd/7.css/7.css">
     <link rel="stylesheet" href="assets/styles/main.css">
     <link rel="icon" type="image/svg+xml" href="assets/images/Logo.svg">
 </head>
-<body class="dark-mode">
-    <header class="title-bar">
-        <div class="title-bar-text">GoldMandu Dashboard</div>
-        <a href="calculator.html" class="btn btn--nav">Gold Calculator</a>
-        <h1>Gold and Silver Prices</h1>
-        <div class="status-bar"><div class="status-bar-field date">Today's Date</div></div>
-        <button role="button" id="dark-mode-btn">
-            <img id="dark-mode-icon" src="assets/images/moon.png" alt="Dark mode toggle icon">
-        </button>
-    </header>
+<body class="dark-mode dashboard-page">
+    <div class="container dashboard-container">
+        <header class="dashboard-header">
+            <a href="calculator.html" class="btn btn--nav dashboard-calc-btn">Gold Calculator</a>
+            <div class="dashboard-title-group">
+                <h1 class="dashboard-title">Gold & Silver Prices</h1>
+                <div class="dashboard-subtitle date">Today's Date</div>
+            </div>
+            <button role="button" id="dark-mode-btn" class="dashboard-theme-toggle">
+                <img id="dark-mode-icon" src="assets/images/moon.png" alt="Dark mode toggle icon">
+            </button>
+        </header>
 
-    <main class="container">
-        <!-- Price Cards -->
-        <section class="grid columns" data-gap="16px" style="margin-bottom:20px;">
-            <div class="card fine-gold">
-                <h2>Fine Gold (24K)</h2>
-                <div class="tola" id="fine-gold-tola">Loading...</div>
-                <div class="gram" id="fine-gold-gram">Loading...</div>
-            </div>
-            <div class="card tejabi-gold">
-                <h2>Tejabi Gold (22K)</h2>
-                <div class="tola" id="tejabi-gold-tola">Loading...</div>
-                <div class="gram" id="tejabi-gold-gram">Loading...</div>
-            </div>
-            <div class="card silver">
-                <h2>Silver</h2>
-                <div class="tola" id="silver-tola">Loading...</div>
-                <div class="gram" id="silver-gram">Loading...</div>
-            </div>
-        </section>
+        <main class="dashboard-main">
+            <!-- Price Cards -->
+            <section class="price-cards-grid">
+                <div class="dashboard-price-card fine-gold-card">
+                    <h3>Fine Gold (24K)</h3>
+                    <div class="price tola" id="fine-gold-tola">Loading...</div>
+                    <div class="price-sub gram" id="fine-gold-gram">Loading...</div>
+                </div>
+                <div class="dashboard-price-card tejabi-gold-card">
+                    <h3>Tejabi Gold (22K)</h3>
+                    <div class="price tola" id="tejabi-gold-tola">Loading...</div>
+                    <div class="price-sub gram" id="tejabi-gold-gram">Loading...</div>
+                </div>
+                <div class="dashboard-price-card silver-card">
+                    <h3>Silver</h3>
+                    <div class="price tola" id="silver-tola">Loading...</div>
+                    <div class="price-sub gram" id="silver-gram">Loading...</div>
+                </div>
+            </section>
 
-        <!-- Insights Section -->
-        <section class="insights-section">
-            <h2>Market Insights</h2>
-            <div class="insights-grid">
-                <div class="insight-card" id="insight-change-card">
-                    <div class="insight-label">Daily Change (Fine Gold)</div>
-                    <div class="insight-value" id="insight-change">—</div>
+            <!-- Insights Section -->
+            <section class="insights-section dashboard-insights">
+                <h2 class="section-title">Market Insights</h2>
+                <div class="insights-grid">
+                    <div class="insight-card dashboard-insight-card" id="insight-change-card">
+                        <div class="insight-label">Daily Change (Fine Gold)</div>
+                        <div class="insight-value" id="insight-change">—</div>
+                    </div>
+                    <div class="insight-card dashboard-insight-card">
+                        <div class="insight-label">7-Day Moving Average</div>
+                        <div class="insight-value" id="insight-ma7">—</div>
+                    </div>
+                    <div class="insight-card dashboard-insight-card">
+                        <div class="insight-label">Month High</div>
+                        <div class="insight-value" id="insight-month-high">—</div>
+                    </div>
+                    <div class="insight-card dashboard-insight-card">
+                        <div class="insight-label">Month Low</div>
+                        <div class="insight-value" id="insight-month-low">—</div>
+                    </div>
+                    <div class="insight-card dashboard-insight-card">
+                        <div class="insight-label">Gold / Silver Ratio</div>
+                        <div class="insight-value" id="insight-ratio">—</div>
+                    </div>
                 </div>
-                <div class="insight-card">
-                    <div class="insight-label">7-Day Moving Average</div>
-                    <div class="insight-value" id="insight-ma7">—</div>
-                </div>
-                <div class="insight-card">
-                    <div class="insight-label">Month High</div>
-                    <div class="insight-value" id="insight-month-high">—</div>
-                </div>
-                <div class="insight-card">
-                    <div class="insight-label">Month Low</div>
-                    <div class="insight-value" id="insight-month-low">—</div>
-                </div>
-                <div class="insight-card">
-                    <div class="insight-label">Gold / Silver Ratio</div>
-                    <div class="insight-value" id="insight-ratio">—</div>
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Charts Section -->
-        <section class="charts-section window" style="max-width:900px;margin:20px auto;">
-            <div class="title-bar"><div class="title-bar-text">Price History Charts</div></div>
-            <div class="window-body">
-                <div class="chart-container" style="margin-bottom:32px;">
-                    <h3>Fine Gold Price History (per Tola)</h3>
-                    <div class="chart-controls" id="fineGoldControls">
-                        <button class="chart-range-btn" data-chart="fineGold" data-range="1M">1M</button>
-                        <button class="chart-range-btn" data-chart="fineGold" data-range="6M">6M</button>
-                        <button class="chart-range-btn" data-chart="fineGold" data-range="1Y">1Y</button>
-                        <button class="chart-range-btn active" data-chart="fineGold" data-range="ALL">ALL</button>
+            <!-- Charts Section -->
+            <section class="charts-shell dashboard-charts">
+                <h2 class="section-title">Price History Charts</h2>
+                <div class="charts-grid">
+                    <div class="chart-container dashboard-chart-card">
+                        <div class="chart-header">
+                            <h3>Fine Gold (per Tola)</h3>
+                            <div class="chart-controls" id="fineGoldControls">
+                                <button class="chart-range-btn" data-chart="fineGold" data-range="1M">1M</button>
+                                <button class="chart-range-btn" data-chart="fineGold" data-range="6M">6M</button>
+                                <button class="chart-range-btn" data-chart="fineGold" data-range="1Y">1Y</button>
+                                <button class="chart-range-btn active" data-chart="fineGold" data-range="ALL">ALL</button>
+                            </div>
+                        </div>
+                        <div class="canvas-wrapper">
+                            <canvas id="fineGoldChart"></canvas>
+                        </div>
                     </div>
-                    <canvas id="fineGoldChart"></canvas>
-                </div>
-                <div class="chart-container" style="margin-bottom:32px;">
-                    <h3>Tejabi Gold Price History (per Tola)</h3>
-                    <div class="chart-controls" id="tejabiGoldControls">
-                        <button class="chart-range-btn" data-chart="tejabiGold" data-range="1M">1M</button>
-                        <button class="chart-range-btn" data-chart="tejabiGold" data-range="6M">6M</button>
-                        <button class="chart-range-btn" data-chart="tejabiGold" data-range="1Y">1Y</button>
-                        <button class="chart-range-btn active" data-chart="tejabiGold" data-range="ALL">ALL</button>
+                    
+                    <div class="chart-container dashboard-chart-card">
+                        <div class="chart-header">
+                            <h3>Tejabi Gold (per Tola)</h3>
+                            <div class="chart-controls" id="tejabiGoldControls">
+                                <button class="chart-range-btn" data-chart="tejabiGold" data-range="1M">1M</button>
+                                <button class="chart-range-btn" data-chart="tejabiGold" data-range="6M">6M</button>
+                                <button class="chart-range-btn" data-chart="tejabiGold" data-range="1Y">1Y</button>
+                                <button class="chart-range-btn active" data-chart="tejabiGold" data-range="ALL">ALL</button>
+                            </div>
+                        </div>
+                        <div class="canvas-wrapper">
+                            <canvas id="tejabiGoldChart"></canvas>
+                        </div>
                     </div>
-                    <canvas id="tejabiGoldChart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <h3>Silver Price History (per Tola)</h3>
-                    <div class="chart-controls" id="silverControls">
-                        <button class="chart-range-btn" data-chart="silver" data-range="1M">1M</button>
-                        <button class="chart-range-btn" data-chart="silver" data-range="6M">6M</button>
-                        <button class="chart-range-btn" data-chart="silver" data-range="1Y">1Y</button>
-                        <button class="chart-range-btn active" data-chart="silver" data-range="ALL">ALL</button>
+
+                    <div class="chart-container dashboard-chart-card">
+                        <div class="chart-header">
+                            <h3>Silver (per Tola)</h3>
+                            <div class="chart-controls" id="silverControls">
+                                <button class="chart-range-btn" data-chart="silver" data-range="1M">1M</button>
+                                <button class="chart-range-btn" data-chart="silver" data-range="6M">6M</button>
+                                <button class="chart-range-btn" data-chart="silver" data-range="1Y">1Y</button>
+                                <button class="chart-range-btn active" data-chart="silver" data-range="ALL">ALL</button>
+                            </div>
+                        </div>
+                        <div class="canvas-wrapper">
+                            <canvas id="silverChart"></canvas>
+                        </div>
                     </div>
-                    <canvas id="silverChart"></canvas>
                 </div>
-            </div>
-        </section>
-    </main>
+            </section>
+        </main>
+    </div>
 
     <script src="scripts/main.js"></script>
 </body>
