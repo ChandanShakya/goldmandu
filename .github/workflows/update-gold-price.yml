@@ -1,9 +1,6 @@
 name: Scrape Gold Prices
 
 on:
-  schedule:
-    - cron: '15 5 * * 0-5'  # 11:00 AM NPT (UTC+5:45)
-    - cron: '30 5 * * 0-5'  # 11:15 AM NPT (UTC+5:45)
   workflow_dispatch:
 
 jobs:
