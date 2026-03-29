@@ -29852,5 +29852,16 @@
         "fine_gold_tola": "281000",
         "tejabi_gold_tola": "266950",
         "silver_tola": "4670"
+    },
+    {
+        "day": "15",
+        "month": "Chaitra",
+        "year": "2082",
+        "fine_gold_gram": "245200",
+        "tejabi_gold_gram": "232940",
+        "silver_gram": "4047",
+        "fine_gold_tola": "286000",
+        "tejabi_gold_tola": "271700",
+        "silver_tola": "4720"
     }
 ]
