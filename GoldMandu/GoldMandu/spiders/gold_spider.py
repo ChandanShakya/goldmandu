@@ -27,7 +27,7 @@ class GoldSpider(scrapy.Spider):
         "DOWNLOADER_CLIENTCONTEXTFACTORY": "scrapy.core.downloader.contextfactory.ScrapyClientContextFactory",
     }
 
-    def __init__(self, start_year=2073, end_year=2082, *args, **kwargs):
+    def __init__(self, start_year=2073, end_year=2083, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.start_year = int(start_year)
         self.end_year = int(end_year)
