@@ -1,0 +1,47 @@
+---
+interface Props {
+  id: string;
+  title: string;
+  canvasId: string;
+}
+
+const { id, title, canvasId } = Astro.props;
+const ranges = [
+  { key: '1M', label: '1M' },
+  { key: '6M', label: '6M' },
+  { key: '1Y', label: '1Y' },
+  { key: 'ALL', label: 'All' },
+  { key: 'Custom', label: 'Custom' },
+] as const;
+---
+
+<section class="chart-block" data-chart-card={id}>
+  <div class="chart-head">
+    <h3>{title}</h3>
+    <div class="chart-tools" data-controls={id}>
+      <div class="range-group" role="group" aria-label={`${title} range`}>
+        {
+          ranges.map((r) => (
+            <button
+              type="button"
+              class:list={['range-btn', r.key === '6M' && 'active']}
+              data-chart={id}
+              data-range={r.key}
+              aria-pressed={r.key === '6M' ? 'true' : 'false'}
+            >
+              {r.label}
+            </button>
+          ))
+        }
+      </div>
+      <div class="custom-row" data-custom={id}>
+        <select aria-label={`${title} start date`} data-from={id}></select>
+        <select aria-label={`${title} end date`} data-to={id}></select>
+        <button type="button" class="apply-btn" data-apply={id}>Apply range</button>
+      </div>
+    </div>
+  </div>
+  <div class="canvas-wrap">
+    <canvas id={canvasId} aria-label={`${title} chart`}></canvas>
+  </div>
+</section>

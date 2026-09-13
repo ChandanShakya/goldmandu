@@ -1,42 +1,91 @@
-name: Scrape Gold Prices
+name: Update gold prices
 
 on:
   workflow_dispatch:
+  schedule:
+    # Daily 02:45 UTC ≈ 08:30 NPT — Fenegosida publishes morning rates.
+    - cron: '45 2 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gold-prices
+  cancel-in-progress: true
 
 jobs:
-  scrape:
+  update:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v6
+
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
-          python-version: '3.x'
-      - name: Install dependencies
+          python-version: '3.12'
+          cache: pip
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install Python dependencies
         run: pip install -r requirements.txt
-      - name: Run Scrapy spider
-        working-directory: ./GoldMandu
-        env:
-          PYTHONHTTPSVERIFY: "0"
-        run: scrapy crawl gold_spider
-      - name: Commit changes
+
+      - name: Install site dependencies
+        run: npm ci
+
+      - name: Update prices from Fenegosida API
+        run: python -u -m scraper
+
+      - name: Validate price data
+        run: python -u -m scraper.validate data/prices.json
+
+      - name: Build site
+        run: npm run build
+
+      - name: Commit canonical data
         run: |
-          git config --global user.name '${{ secrets.MAIN_USERNAME }}'
-          git config --global user.email '${{ secrets.MAIN_EMAIL }}'
-          git add -f Values.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Update gold prices [skip ci]")
-          git push origin HEAD
+          git config user.name "${{ secrets.MAIN_USERNAME || 'goldmandu-bot' }}"
+          git config user.email "${{ secrets.MAIN_EMAIL || 'goldmandu-bot@users.noreply.github.com' }}"
+          git add data/prices.json
+          if git diff --cached --quiet; then
+            echo "No price changes to commit."
+          else
+            git commit -m "Update gold prices [skip ci]"
+            git push origin HEAD
+          fi
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: update
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Notify n8n on success
+        if: success() && secrets.N8N_WEBHOOK_URL != ''
+        continue-on-error: true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Notify n8n on Success
-        if: success()
+          N8N_WEBHOOK_URL: ${{ secrets.N8N_WEBHOOK_URL }}
         run: |
-          curl -X POST "${{ secrets.N8N_WEBHOOK_URL }}" \
+          curl --fail -X POST "$N8N_WEBHOOK_URL" \
             -H "Content-Type: application/json" \
-            -d '{
-              "commit_sha": "${{ github.sha }}",
-              "run_id": "${{ github.run_id }}",
-              "run_attempt": "${{ github.run_attempt }}"
-            }'
+            -d "{\"commit_sha\":\"${{ github.sha }}\",\"run_id\":\"${{ github.run_id }}\"}"

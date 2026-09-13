@@ -1,0 +1,49 @@
+---
+interface Props {
+  change: number | null;
+  changePct: number | null;
+  ma7: number | null;
+  monthHigh: number | null;
+  monthLow: number | null;
+  ratio: number | null;
+}
+
+import { formatNPR } from '../lib/prices';
+
+const { change, changePct, ma7, monthHigh, monthLow, ratio } = Astro.props;
+
+const changeText =
+  change == null
+    ? '—'
+    : `${change >= 0 ? '+' : ''}${formatNPR(change)} (${change >= 0 ? '+' : ''}${changePct ?? 0}%)`;
+const changeClass = change == null ? '' : change >= 0 ? 'up' : 'down';
+---
+
+<h2>Market insights</h2>
+<div class="table-scroll">
+  <table class="insights">
+    <tbody>
+      <tr>
+        <th scope="row">Daily change (fine gold)</th>
+        <td class={changeClass}>{changeText}</td>
+      </tr>
+      <tr>
+        <th scope="row">7-day average</th>
+        <td>{formatNPR(ma7)}</td>
+      </tr>
+      <tr>
+        <th scope="row">Month high</th>
+        <td>{formatNPR(monthHigh)}</td>
+      </tr>
+      <tr>
+        <th scope="row">Month low</th>
+        <td>{formatNPR(monthLow)}</td>
+      </tr>
+      <tr>
+        <th scope="row">Gold / silver ratio</th>
+        <td>{ratio == null ? '—' : `${ratio} : 1`}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+

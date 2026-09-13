@@ -1,5 +1,2 @@
-Scrapy
-requests
-beautifulsoup4
-lxml
-nepali_datetime
+# GoldMandu scraper — stdlib + nepali-datetime only
+nepali-datetime>=1.0.8.1

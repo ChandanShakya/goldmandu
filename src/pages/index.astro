@@ -1,0 +1,88 @@
+---
+import Base from '../layouts/Base.astro';
+import Insights from '../components/Insights.astro';
+import ChartPanel from '../components/ChartPanel.astro';
+import pricesRaw from '../../data/prices.json';
+import {
+  type PriceRecord,
+  safePrice,
+  formatNPR,
+  latestValid,
+  computeInsights,
+} from '../lib/prices';
+
+const records = pricesRaw as PriceRecord[];
+const latest = latestValid(records);
+const insights = computeInsights(records);
+const asOf = latest ? `${latest.day} ${latest.month} ${latest.year}` : '—';
+
+const rows = [
+  {
+    name: 'Fine gold (24K)',
+    tola: safePrice(latest?.fine_gold_tola),
+    gram: safePrice(latest?.fine_gold_gram),
+  },
+  {
+    name: 'Tejabi gold (22K)',
+    tola: safePrice(latest?.tejabi_gold_tola),
+    gram: safePrice(latest?.tejabi_gold_gram),
+  },
+  {
+    name: 'Silver',
+    tola: safePrice(latest?.silver_tola),
+    gram: safePrice(latest?.silver_gram),
+  },
+];
+---
+
+<Base title="GoldMandu — Nepal Gold & Silver Prices" current="home">
+  <h1>Nepal gold &amp; silver prices</h1>
+  <p class="meta">
+    As of <strong>{asOf}</strong>
+    {records.length ? ` · ${records.length} trading days` : ''}
+  </p>
+
+  <h2>Today&rsquo;s rates (NPR)</h2>
+  <div class="table-scroll">
+    <table class="prices">
+      <thead>
+        <tr>
+          <th>Metal</th>
+          <th>Per tola</th>
+          <th>Per 10 grams</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          rows.map((r) => (
+            <tr>
+              <th scope="row">{r.name}</th>
+              <td class="num">{formatNPR(r.tola)}</td>
+              <td class="num sub">{formatNPR(r.gram)}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <Insights
+    change={insights?.change ?? null}
+    changePct={insights?.changePct ?? null}
+    ma7={insights?.ma7 ?? null}
+    monthHigh={insights?.monthHigh ?? null}
+    monthLow={insights?.monthLow ?? null}
+    ratio={insights?.ratio ?? null}
+  />
+
+  <h2>Price history</h2>
+  <div class="chart-stack">
+    <ChartPanel id="fineGold" title="Fine gold · per tola" canvasId="fineGoldChart" />
+    <ChartPanel id="tejabiGold" title="Tejabi gold · per tola" canvasId="tejabiGoldChart" />
+    <ChartPanel id="silver" title="Silver · per tola" canvasId="silverChart" />
+  </div>
+
+  <script>
+    import '../scripts/charts';
+  </script>
+</Base>

@@ -1,0 +1,579 @@
+/* Mobile-first overrides on Water.css light — sharp, full width */
+
+:root {
+  --links: #0000cc;
+  --focus: #6b5a1e;
+  --background: #ffffff;
+  --text: #111111;
+  --text-muted: #555555;
+  --accent: #6b5a1e;
+  --tap: 44px;
+  --pad-x: 0.75rem;
+}
+
+*,
+*::before,
+*::after {
+  border-radius: 0 !important;
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 16px;
+  line-height: 1.45;
+  background: #fff;
+  color: var(--text);
+  margin: 0;
+  max-width: none !important;
+  width: 100%;
+  padding: 0 !important;
+  overflow-x: hidden;
+  /* iOS PWA chrome */
+  padding-bottom: env(safe-area-inset-bottom, 0) !important;
+}
+
+body > header.site {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #fff;
+  border-bottom: 2px solid #111;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  padding-top: env(safe-area-inset-top, 0);
+}
+
+header.site .inner {
+  width: 100%;
+  margin: 0;
+  padding: 0.5rem var(--pad-x);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem 0.75rem;
+}
+
+header.site h1 {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.2;
+}
+
+header.site h1 a {
+  text-decoration: none;
+  color: #111;
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+}
+
+header.site nav {
+  margin: 0;
+  display: flex;
+  gap: 0.15rem;
+}
+
+header.site nav a {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  padding: 0 0.55rem;
+  text-decoration: none;
+}
+
+header.site nav a[aria-current="page"] {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+main {
+  width: 100%;
+  margin: 0;
+  padding: 0.75rem var(--pad-x) 1.5rem;
+  background: #fff;
+  border: 0;
+  min-height: 70vh;
+}
+
+footer.site {
+  width: 100%;
+  margin: 0;
+  padding: 0.75rem var(--pad-x)
+    calc(1.25rem + env(safe-area-inset-bottom, 0px));
+  font-size: 0.85rem;
+  color: #555;
+  border-top: 1px solid #111;
+  background: #fff;
+}
+
+h1 {
+  font-size: 1.35rem;
+  margin: 0.5rem 0 0.25rem;
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: 1.05rem;
+  margin: 1rem 0 0.4rem;
+  border-bottom: 1px solid #111;
+  padding-bottom: 0.15rem;
+}
+
+h3 {
+  font-size: 0.98rem;
+  margin: 0 0 0.35rem;
+}
+
+.meta {
+  color: #555;
+  font-size: 0.88rem;
+  margin: 0 0 0.75rem;
+}
+
+.hint {
+  margin: 0 0 0.55rem;
+  font-size: 0.82rem;
+  color: #555;
+  line-height: 1.35;
+}
+
+/* Tables: scroll on narrow screens instead of squashing */
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 0 1rem;
+}
+
+table.prices,
+table.insights {
+  width: 100%;
+  min-width: 280px;
+  border-collapse: collapse;
+  margin: 0;
+  background: #fff;
+}
+
+table.prices th,
+table.prices td,
+table.insights th,
+table.insights td {
+  border: 1px solid #111;
+  padding: 0.4rem 0.45rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+table.prices thead th,
+table.insights th {
+  background: #ddd;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+table.prices td.num {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.95rem;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+table.prices td.sub {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.82rem;
+  font-weight: normal;
+  color: #444;
+  white-space: nowrap;
+}
+
+table.insights td {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.88rem;
+  word-break: break-word;
+}
+
+.up {
+  color: #0b5d1e;
+}
+
+.down {
+  color: #8b1a1a;
+}
+
+.chart-block {
+  margin: 0 0 1rem;
+  border: 1px solid #111;
+  background: #fff;
+  padding: 0.4rem;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.chart-head {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.35rem;
+  margin: 0 0 0.45rem;
+}
+
+.chart-head h3 {
+  margin: 0;
+  align-self: flex-start;
+}
+
+.chart-tools {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.4rem;
+  margin: 0;
+  width: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Segmented range control — right-aligned, auto width */
+.range-group {
+  display: inline-flex;
+  width: auto;
+  max-width: 100%;
+  border: 1px solid #111;
+  background: #fff;
+}
+
+.range-group .range-btn {
+  flex: 0 1 auto;
+  min-width: 2.85rem;
+  min-height: var(--tap);
+  margin: 0;
+  padding: 0 0.55rem;
+  border: 0;
+  border-right: 1px solid #111;
+  background: #fff;
+  color: #111;
+  font-size: 0.8rem;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+  box-shadow: none;
+  line-height: 1.2;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.range-group .range-btn:last-child {
+  border-right: 0;
+}
+
+.range-group .range-btn:hover {
+  background: #e8e8e8;
+}
+
+.range-group .range-btn:active {
+  background: #ccc;
+}
+
+.range-group .range-btn.active {
+  background: #111;
+  color: #fff;
+}
+
+.range-group .range-btn:focus-visible,
+.apply-btn:focus-visible,
+button.primary:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid #6b5a1e;
+  outline-offset: 2px;
+  z-index: 1;
+}
+
+.chart-tools select {
+  font-size: 0.9rem;
+  padding: 0.3rem 0.35rem;
+  min-height: var(--tap);
+  max-width: 100%;
+  border: 1px solid #111;
+  background: #fff;
+  color: #111;
+  appearance: auto;
+}
+
+.custom-row {
+  display: none;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.35rem;
+  width: 100%;
+  padding-top: 0.15rem;
+}
+
+.custom-row.open {
+  display: flex;
+}
+
+.custom-row select {
+  width: 100%;
+}
+
+.custom-row .apply-btn {
+  align-self: flex-end;
+}
+
+/* Action row: buttons sit on the right for thumb reach */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.65rem;
+  width: 100%;
+}
+
+.apply-btn {
+  align-self: flex-end;
+  width: auto;
+  min-width: 7.5rem;
+  min-height: var(--tap);
+  padding: 0 0.85rem;
+  border: 1px solid #111;
+  background: #111;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.85rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.apply-btn:hover {
+  background: #333;
+}
+
+.apply-btn:active {
+  background: #000;
+  transform: translateY(1px);
+}
+
+.canvas-wrap {
+  position: relative;
+  height: 200px;
+  width: 100%;
+}
+
+.canvas-wrap canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  touch-action: pan-y;
+}
+
+fieldset {
+  border: 1px solid #111;
+  margin: 0 0 0.85rem;
+  padding: 0.5rem 0.55rem 0.7rem;
+  background: #fff;
+}
+
+legend {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.78rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 0 0.25rem;
+}
+
+label {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.8rem;
+  display: block;
+  margin: 0.4rem 0 0.15rem;
+}
+
+input,
+select {
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid #111;
+  font-family: "Courier New", Courier, monospace;
+  background: #fff;
+  padding: 0.4rem 0.45rem;
+  min-height: var(--tap);
+  font-size: 1rem; /* prevents iOS zoom on focus */
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.25rem;
+}
+
+button.primary {
+  margin-top: 0;
+  width: auto;
+  min-width: 8.5rem;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.95rem;
+  font-weight: bold;
+  padding: 0.55rem 1.1rem;
+  min-height: 48px;
+  border: 1px solid #111;
+  background: #111;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  letter-spacing: 0.01em;
+}
+
+button.primary:hover {
+  background: #2a2a2a;
+}
+
+button.primary:active {
+  background: #000;
+  transform: translateY(1px);
+}
+
+button.primary:disabled {
+  opacity: 0.55;
+  cursor: wait;
+  transform: none;
+}
+
+.out {
+  margin-top: 0.55rem;
+  padding: 0.55rem 0.6rem;
+  border: 1px solid #111;
+  background: #f3f3f3;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  min-height: 2.6rem;
+  word-break: break-word;
+}
+
+.out::before {
+  content: "Result";
+  display: block;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.68rem;
+  font-weight: bold;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #555;
+  margin-bottom: 0.25rem;
+}
+
+.out.pending {
+  color: #555;
+  font-style: italic;
+}
+
+/* ≥520px */
+@media (min-width: 520px) {
+  .form-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .chart-head {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .chart-head h3 {
+    width: auto;
+    align-self: center;
+  }
+
+  .chart-tools {
+    width: auto;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .custom-row {
+    flex-basis: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .custom-row select {
+    width: auto;
+    flex: 0 1 10rem;
+  }
+
+  .apply-btn {
+    margin-left: 0.35rem;
+  }
+
+  .canvas-wrap {
+    height: 230px;
+  }
+}
+
+/* ≥768px */
+@media (min-width: 768px) {
+  :root {
+    --pad-x: 1rem;
+  }
+
+  header.site h1 {
+    font-size: 1.25rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.1rem;
+  }
+
+  table.prices td.num {
+    font-size: 1.05rem;
+  }
+
+  table.prices td.sub {
+    font-size: 0.88rem;
+  }
+
+  .canvas-wrap {
+    height: 260px;
+  }
+}
+
+/* ≥1024px */
+@media (min-width: 1024px) {
+  .canvas-wrap {
+    height: 280px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+  }
+}

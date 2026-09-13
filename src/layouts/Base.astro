@@ -1,0 +1,60 @@
+---
+import 'water.css/out/light.min.css';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  current?: 'home' | 'calculator';
+}
+
+const {
+  title,
+  description = 'Nepal gold and silver prices in NPR — fine gold, tejabi gold, and silver per tola and per 10 grams.',
+  current = 'home',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#6b5a1e" />
+    <meta name="color-scheme" content="light" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="GoldMandu" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site">
+      <div class="inner">
+        <h1><a href="/">GoldMandu</a></h1>
+        <nav>
+          <a href="/" aria-current={current === 'home' ? 'page' : undefined}>Prices</a>
+          <a href="/calculator" aria-current={current === 'calculator' ? 'page' : undefined}>Calculator</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="site">
+      Rates from the Federation of Nepal Gold &amp; Silver Dealers' Association (Fenegosida).
+      Tejabi gold is estimated at 95% of fine gold when the association publishes a single gold rate.
+    </footer>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {});
+        });
+      }
+    </script>
+  </body>
+</html>

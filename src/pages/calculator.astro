@@ -1,0 +1,145 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="GoldMandu — Calculator"
+  description="Gold and silver calculators for Nepal."
+  current="calculator"
+>
+  <h1>Gold &amp; silver calculator</h1>
+  <p class="meta">Uses the latest published rates. Amounts in NPR.</p>
+
+  <form id="calc-form" onsubmit="return false;">
+    <fieldset>
+      <legend>Unit converter (Nepal)</legend>
+      <p class="hint">
+        1 tola = 16 aana = 12 masha = 96 ratti ≈ 11.66&nbsp;g.
+        Enter weight in any unit; all others are shown.
+      </p>
+      <div class="form-row">
+        <div>
+          <label for="convertWeight">Weight</label>
+          <input id="convertWeight" type="number" step="0.001" inputmode="decimal" placeholder="e.g. 2" />
+        </div>
+        <div>
+          <label for="convertFrom">Unit</label>
+          <select id="convertFrom">
+            <option value="tola" selected>Tola</option>
+            <option value="gram">Gram</option>
+            <option value="aana">Aana (आना)</option>
+            <option value="masha">Masha (माशा)</option>
+            <option value="ratti">Ratti / Lal (रत्ती)</option>
+          </select>
+        </div>
+      </div>
+      <div class="actions">
+        <button type="button" class="primary" id="btn-convert">Convert</button>
+      </div>
+      <div class="out pending" id="convertResult" aria-live="polite">
+        Enter a weight — e.g. 2 tola or 8 aana.
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Price calculator</legend>
+      <div class="form-row">
+        <div>
+          <label for="priceMetal">Metal</label>
+          <select id="priceMetal">
+            <option value="fine">Fine gold (24K)</option>
+            <option value="tejabi">Tejabi gold (22K)</option>
+            <option value="silver">Silver</option>
+          </select>
+        </div>
+        <div>
+          <label for="priceUnit">Unit</label>
+          <select id="priceUnit">
+            <option value="tola">Tola</option>
+            <option value="gram">10 gram rate</option>
+          </select>
+        </div>
+      </div>
+      <label for="priceWeight">Weight</label>
+      <input id="priceWeight" type="number" step="0.001" inputmode="decimal" placeholder="e.g. 1.5" />
+      <div class="actions">
+        <button type="button" class="primary" id="btn-price">Calculate price</button>
+      </div>
+      <div class="out pending" id="priceResult" aria-live="polite">Enter a weight to price the metal.</div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Jewelry price</legend>
+      <div class="form-row">
+        <div>
+          <label for="jewelryWeight">Gold weight</label>
+          <input id="jewelryWeight" type="number" step="0.001" inputmode="decimal" placeholder="e.g. 2" />
+        </div>
+        <div>
+          <label for="jewelryUnit">Unit</label>
+          <select id="jewelryUnit">
+            <option value="tola" selected>Tola</option>
+            <option value="aana">Aana</option>
+            <option value="gram">Gram</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div>
+          <label for="makingCharge">Making charge / tola (Rs.)</label>
+          <input id="makingCharge" type="number" inputmode="numeric" value="1000" />
+        </div>
+        <div>
+          <label for="wastage">Wastage (%)</label>
+          <input id="wastage" type="number" inputmode="decimal" value="8" />
+        </div>
+      </div>
+      <div class="actions">
+        <button type="button" class="primary" id="btn-jewelry">Estimate jewelry</button>
+      </div>
+      <div class="out pending" id="jewelryResult" aria-live="polite">Uses current fine gold rate.</div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Karat prices</legend>
+      <label for="karat24">24K price per tola (Rs.)</label>
+      <input id="karat24" type="number" inputmode="numeric" placeholder="auto from latest rate" />
+      <div class="actions">
+        <button type="button" class="primary" id="btn-karat">Show all karats</button>
+      </div>
+      <div class="out pending" id="karatResult" aria-live="polite">Shows 24K · 22K · 18K · 14K · 10K.</div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Gold SIP</legend>
+      <div class="form-row">
+        <div>
+          <label for="invInitial">Initial (Rs.)</label>
+          <input id="invInitial" type="number" inputmode="numeric" placeholder="100000" />
+        </div>
+        <div>
+          <label for="invMonthly">Monthly (Rs.)</label>
+          <input id="invMonthly" type="number" inputmode="numeric" placeholder="5000" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div>
+          <label for="invYears">Years</label>
+          <input id="invYears" type="number" inputmode="numeric" value="5" />
+        </div>
+        <div>
+          <label for="invReturn">Return % p.a.</label>
+          <input id="invReturn" type="number" inputmode="decimal" value="8" step="0.1" />
+        </div>
+      </div>
+      <div class="actions">
+        <button type="button" class="primary" id="btn-invest">Project returns</button>
+      </div>
+      <div class="out pending" id="investResult" aria-live="polite">Compound monthly estimate.</div>
+    </fieldset>
+  </form>
+
+  <script>
+    import '../scripts/calculator';
+  </script>
+</Base>

@@ -1,19 +1,21 @@
-scripts/__pycache__/scrape.cpython-39.pyc
-GoldMandu/GoldMandu/__pycache__/
-GoldMandu/GoldMandu/spiders/__pycache__/
-
-# Virtual environments
-venv/
-.venv/
-
-# Node dependencies
+# Dependencies
 node_modules/
-
-# Python cache
+.venv/
 __pycache__/
-*.pyc
-*.pyo
+*.py[cod]
 
-# Scrapy cache
-.scrapy/
-GoldMandu/.scrapy/
+# Build output
+dist/
+.astro/
+
+# Generated data copy (built from data/prices.json)
+public/data/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log
+
+# Scratch
+_*.py
+_*.cjs
