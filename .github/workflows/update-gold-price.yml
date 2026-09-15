@@ -16,7 +16,7 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -27,58 +27,38 @@ jobs:
           python-version: '3.12'
           cache: pip
 
-      - name: Set up Node
-        uses: actions/setup-node@v6
-        with:
-          node-version: '22'
-          cache: npm
-
       - name: Install Python dependencies
         run: pip install -r requirements.txt
 
-      - name: Install site dependencies
-        run: npm ci
-
       - name: Update prices from Fenegosida API
-        run: python -u -m scraper
+        run: python -u -m scraper --no-site-copy
 
       - name: Validate price data
         run: python -u -m scraper.validate data/prices.json
 
-      - name: Build site
-        run: npm run build
-
       - name: Commit canonical data
+        id: commit
         run: |
           git config user.name "${{ secrets.MAIN_USERNAME || 'goldmandu-bot' }}"
           git config user.email "${{ secrets.MAIN_EMAIL || 'goldmandu-bot@users.noreply.github.com' }}"
           git add data/prices.json
           if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "No price changes to commit."
           else
             git commit -m "Update gold prices [skip ci]"
             git push origin HEAD
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-
-  deploy:
-    needs: update
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      # Optional: if you use a Cloudflare Pages deploy hook instead of
+      # git integration, set secret CLOUDFLARE_DEPLOY_HOOK to the hook URL.
+      - name: Trigger Cloudflare Pages deploy hook
+        if: steps.commit.outputs.changed == 'true' && secrets.CLOUDFLARE_DEPLOY_HOOK != ''
+        continue-on-error: true
+        env:
+          CLOUDFLARE_DEPLOY_HOOK: ${{ secrets.CLOUDFLARE_DEPLOY_HOOK }}
+        run: curl --fail -X POST "$CLOUDFLARE_DEPLOY_HOOK"
 
       - name: Notify n8n on success
         if: success() && secrets.N8N_WEBHOOK_URL != ''
@@ -89,3 +69,4 @@ jobs:
           curl --fail -X POST "$N8N_WEBHOOK_URL" \
             -H "Content-Type: application/json" \
             -d "{\"commit_sha\":\"${{ github.sha }}\",\"run_id\":\"${{ github.run_id }}\"}"
+

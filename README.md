@@ -118,3 +118,4 @@ Settings → Pages → Source: **GitHub Actions**.
 ## Status
 
 Idea 2022-05-20. Astro static site + validated scraper pipeline (2026).
+
