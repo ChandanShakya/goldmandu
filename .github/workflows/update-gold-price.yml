@@ -37,10 +37,14 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Update prices from Fenegosida API
-        run: python -u -m scraper --no-site-copy
+        # Invoke package API directly — works even if scraper/__main__.py
+        # is missing on the runner.
+        run: |
+          python -u -c "from scraper.update import main; raise SystemExit(main(['--no-site-copy']))"
 
       - name: Validate price data
-        run: python -u -m scraper.validate data/prices.json
+        run: |
+          python -u -c "from scraper.validate import main; raise SystemExit(main(['data/prices.json']))"
 
       - name: Commit canonical data
         id: commit
