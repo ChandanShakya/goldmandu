@@ -1,0 +1,11 @@
+# Cloudflare Pages — bind KV for Web Push subscriptions
+# Create namespace: wrangler kv namespace create SUBSCRIPTIONS
+# Then set the id below (or bind in the Pages dashboard).
+
+name = "goldmandu"
+compatibility_date = "2026-01-01"
+pages_build_output_dir = "dist"
+
+# [[kv_namespaces]]
+# binding = "SUBSCRIPTIONS"
+# id = "<your-kv-namespace-id>"

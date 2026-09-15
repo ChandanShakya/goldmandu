@@ -16,13 +16,19 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     env:
       # Secrets cannot be used in `if:` — expose as env and test in bash.
       CLOUDFLARE_DEPLOY_HOOK: ${{ secrets.CLOUDFLARE_DEPLOY_HOOK }}
       N8N_WEBHOOK_URL: ${{ secrets.N8N_WEBHOOK_URL }}
       GIT_USER_NAME: ${{ secrets.MAIN_USERNAME || 'goldmandu-bot' }}
       GIT_USER_EMAIL: ${{ secrets.MAIN_EMAIL || 'goldmandu-bot@users.noreply.github.com' }}
+      VAPID_PUBLIC_KEY: ${{ secrets.VAPID_PUBLIC_KEY }}
+      VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
+      VAPID_SUBJECT: ${{ secrets.VAPID_SUBJECT }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_KV_NAMESPACE_ID: ${{ secrets.CLOUDFLARE_KV_NAMESPACE_ID }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -33,12 +39,19 @@ jobs:
           python-version: '3.12'
           cache: pip
 
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+
       - name: Install Python dependencies
         run: pip install -r requirements.txt
 
+      - name: Install Node dependencies (web-push)
+        run: npm ci
+
       - name: Update prices from Fenegosida API
-        # Invoke package API directly — works even if scraper/__main__.py
-        # is missing on the runner.
         run: |
           python -u -c "from scraper.update import main; raise SystemExit(main(['--no-site-copy']))"
 
@@ -61,7 +74,6 @@ jobs:
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
-      # Optional: Cloudflare Pages deploy hook (if not using git integration).
       - name: Trigger Cloudflare Pages deploy hook
         if: steps.commit.outputs.changed == 'true'
         continue-on-error: true
@@ -71,6 +83,15 @@ jobs:
             exit 0
           fi
           curl --fail -X POST "$CLOUDFLARE_DEPLOY_HOOK"
+
+      - name: Send daily rate push notification
+        continue-on-error: true
+        run: |
+          if [ -z "$VAPID_PRIVATE_KEY" ] || [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "Push secrets not configured; skip."
+            exit 0
+          fi
+          node scripts/send-push.mjs
 
       - name: Notify n8n on success
         if: success()

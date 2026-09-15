@@ -46,15 +46,85 @@ const {
       <slot />
     </main>
     <footer class="site">
+      <div class="push-row">
+        <div>
+          <strong>Daily price alerts</strong>
+          <div id="push-status" class="push-status">Checking…</div>
+        </div>
+        <button type="button" id="btn-push" class="primary push-btn">Enable daily alerts</button>
+      </div>
       Rates from the Federation of Nepal Gold &amp; Silver Dealers' Association (Fenegosida).
       Tejabi gold is estimated at 95% of fine gold when the association publishes a single gold rate.
     </footer>
+
+    <div id="install-banner" class="install-banner" hidden>
+      <div class="install-banner-text">
+        <strong>Install GoldMandu</strong>
+        <span>Add to your home screen for quick access.</span>
+      </div>
+      <div class="install-banner-actions">
+        <button type="button" id="install-accept" class="primary">Install</button>
+        <button type="button" id="install-dismiss" class="ghost-btn">Not now</button>
+      </div>
+    </div>
+
     <script>
+      import { initPushUi } from '../scripts/push';
+
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/sw.js').catch(() => {});
         });
       }
+
+      initPushUi();
+
+      (() => {
+        const banner = document.getElementById('install-banner');
+        const accept = document.getElementById('install-accept');
+        const dismiss = document.getElementById('install-dismiss');
+        if (!banner || !accept || !dismiss) return;
+
+        const standalone =
+          window.matchMedia('(display-mode: standalone)').matches ||
+          (navigator as unknown as { standalone?: boolean }).standalone === true;
+        if (standalone) return;
+
+        try {
+          if (localStorage.getItem('gm-install-dismissed') === '1') return;
+        } catch {
+          /* ignore */
+        }
+
+        let deferred: BeforeInstallPromptEvent | null = null;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+          e.preventDefault();
+          deferred = e as BeforeInstallPromptEvent;
+          banner.hidden = false;
+        });
+
+        accept.addEventListener('click', async () => {
+          if (!deferred) return;
+          deferred.prompt();
+          try {
+            await deferred.userChoice;
+          } catch {
+            /* ignore */
+          }
+          deferred = null;
+          banner.hidden = true;
+        });
+
+        dismiss.addEventListener('click', () => {
+          try {
+            localStorage.setItem('gm-install-dismissed', '1');
+          } catch {
+            /* ignore */
+          }
+          banner.hidden = true;
+        });
+      })();
     </script>
   </body>
 </html>

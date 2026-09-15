@@ -131,12 +131,31 @@ You can delete any old `gh-pages` branch. The Actions workflow no longer uploads
 
 `*_gram` is the association’s **per 10 gram** rate. Tejabi ≈ 95% of fine when only one gold rate is published.
 
+## Daily Web Push
+
+Footer → **Enable daily alerts**. Subscriptions go to Cloudflare KV (`SUBSCRIPTIONS`). After each scrape, Actions runs `scripts/send-push.mjs`.
+
+| Piece | Role |
+|-------|------|
+| `functions/api/subscribe.js` | Pages Function → KV |
+| `src/scripts/push.ts` | Subscribe UI |
+| `public/sw.js` | Shows notification (v3, network-first HTML) |
+| `scripts/send-push.mjs` | Actions sender |
+
+Also set **`PUBLIC_VAPID_KEY`** in Cloudflare Pages **build** variables. Bind KV as **`SUBSCRIPTIONS`**.
+
 ## CI secrets
 
 | Secret | Required | Purpose |
 |--------|----------|---------|
 | `MAIN_USERNAME` | yes (or bot default) | Git commit author |
 | `MAIN_EMAIL` | yes (or bot default) | Git commit email |
+| `VAPID_PUBLIC_KEY` | for push | Web Push public key |
+| `VAPID_PRIVATE_KEY` | for push | Web Push private key |
+| `VAPID_SUBJECT` | for push | e.g. `mailto:you@example.com` |
+| `CLOUDFLARE_ACCOUNT_ID` | for push | CF account |
+| `CLOUDFLARE_API_TOKEN` | for push | KV token |
+| `CLOUDFLARE_KV_NAMESPACE_ID` | for push | Subscriptions namespace |
 | `CLOUDFLARE_DEPLOY_HOOK` | optional | Only if not using CF git integration |
 | `N8N_WEBHOOK_URL` | optional | Success notify |
 

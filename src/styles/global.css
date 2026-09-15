@@ -577,3 +577,118 @@ button.primary:disabled {
     scroll-behavior: auto !important;
   }
 }
+
+/* PWA install prompt (Android) */
+.install-banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  padding: 0.75rem var(--pad-x)
+    calc(0.75rem + env(safe-area-inset-bottom, 0px));
+  background: #111;
+  color: #fff;
+  border-top: 2px solid #6b5a1e;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.install-banner[hidden] {
+  display: none !important;
+}
+
+.install-banner-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+  flex: 1 1 12rem;
+}
+
+.install-banner-text strong {
+  font-size: 0.95rem;
+}
+
+.install-banner-text span {
+  font-size: 0.8rem;
+  color: #ccc;
+}
+
+.install-banner-actions {
+  display: flex;
+  gap: 0.4rem;
+  flex: 0 0 auto;
+}
+
+.install-banner .primary {
+  margin-top: 0;
+  background: #fff;
+  color: #111;
+  border-color: #fff;
+  min-height: 40px;
+  min-width: 5.5rem;
+  width: auto;
+  padding: 0.4rem 0.85rem;
+}
+
+.install-banner .primary:hover {
+  background: #eee;
+}
+
+.ghost-btn {
+  min-height: 40px;
+  min-width: 5rem;
+  width: auto;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid #888;
+  background: transparent;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.85rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: none;
+}
+
+.ghost-btn:hover {
+  border-color: #fff;
+}
+
+/* Daily push opt-in (footer) */
+.push-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin: 0 0 0.75rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid #ccc;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.push-row strong {
+  font-size: 0.9rem;
+  color: #111;
+}
+
+.push-status {
+  font-size: 0.8rem;
+  color: #555;
+  margin-top: 0.1rem;
+}
+
+.push-btn {
+  margin-top: 0 !important;
+  width: auto !important;
+  min-width: 8.5rem;
+  min-height: 40px;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.85rem;
+}
+

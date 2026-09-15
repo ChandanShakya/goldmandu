@@ -8,13 +8,16 @@
     "build": "node scripts/sync-data.mjs && astro build",
     "preview": "astro preview",
     "sync-data": "node scripts/sync-data.mjs",
-    "build:site": "node scripts/sync-data.mjs && astro build"
+    "build:site": "node scripts/sync-data.mjs && astro build",
+    "vapid": "web-push generate-vapid-keys",
+    "push": "node scripts/send-push.mjs"
   },
   "dependencies": {
     "chart.js": "^4.5.0",
     "water.css": "^2.1.1"
   },
   "devDependencies": {
-    "astro": "^7.3.2"
+    "astro": "^7.3.2",
+    "web-push": "^3.6.7"
   }
 }

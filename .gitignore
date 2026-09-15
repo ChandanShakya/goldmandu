@@ -16,6 +16,10 @@ public/data/
 Thumbs.db
 *.log
 
+# Env / secrets
+.env
+.env.*
+
 # Scratch
 _*.py
 _*.cjs
