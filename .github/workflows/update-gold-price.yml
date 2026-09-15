@@ -17,6 +17,12 @@ jobs:
   update:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      # Secrets cannot be used in `if:` — expose as env and test in bash.
+      CLOUDFLARE_DEPLOY_HOOK: ${{ secrets.CLOUDFLARE_DEPLOY_HOOK }}
+      N8N_WEBHOOK_URL: ${{ secrets.N8N_WEBHOOK_URL }}
+      GIT_USER_NAME: ${{ secrets.MAIN_USERNAME || 'goldmandu-bot' }}
+      GIT_USER_EMAIL: ${{ secrets.MAIN_EMAIL || 'goldmandu-bot@users.noreply.github.com' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -39,8 +45,8 @@ jobs:
       - name: Commit canonical data
         id: commit
         run: |
-          git config user.name "${{ secrets.MAIN_USERNAME || 'goldmandu-bot' }}"
-          git config user.email "${{ secrets.MAIN_EMAIL || 'goldmandu-bot@users.noreply.github.com' }}"
+          git config user.name "$GIT_USER_NAME"
+          git config user.email "$GIT_USER_EMAIL"
           git add data/prices.json
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
@@ -51,22 +57,25 @@ jobs:
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
-      # Optional: if you use a Cloudflare Pages deploy hook instead of
-      # git integration, set secret CLOUDFLARE_DEPLOY_HOOK to the hook URL.
+      # Optional: Cloudflare Pages deploy hook (if not using git integration).
       - name: Trigger Cloudflare Pages deploy hook
-        if: steps.commit.outputs.changed == 'true' && secrets.CLOUDFLARE_DEPLOY_HOOK != ''
+        if: steps.commit.outputs.changed == 'true'
         continue-on-error: true
-        env:
-          CLOUDFLARE_DEPLOY_HOOK: ${{ secrets.CLOUDFLARE_DEPLOY_HOOK }}
-        run: curl --fail -X POST "$CLOUDFLARE_DEPLOY_HOOK"
+        run: |
+          if [ -z "$CLOUDFLARE_DEPLOY_HOOK" ]; then
+            echo "CLOUDFLARE_DEPLOY_HOOK not set; skip (git integration rebuilds Pages)."
+            exit 0
+          fi
+          curl --fail -X POST "$CLOUDFLARE_DEPLOY_HOOK"
 
       - name: Notify n8n on success
-        if: success() && secrets.N8N_WEBHOOK_URL != ''
+        if: success()
         continue-on-error: true
-        env:
-          N8N_WEBHOOK_URL: ${{ secrets.N8N_WEBHOOK_URL }}
         run: |
+          if [ -z "$N8N_WEBHOOK_URL" ]; then
+            echo "N8N_WEBHOOK_URL not set; skip."
+            exit 0
+          fi
           curl --fail -X POST "$N8N_WEBHOOK_URL" \
             -H "Content-Type: application/json" \
             -d "{\"commit_sha\":\"${{ github.sha }}\",\"run_id\":\"${{ github.run_id }}\"}"
-
