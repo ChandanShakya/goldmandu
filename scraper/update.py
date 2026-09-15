@@ -211,9 +211,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--data", type=Path, default=DEFAULT_DATA,
                         help=f"canonical prices file (default: {DEFAULT_DATA})")
     parser.add_argument("--site-copy", type=Path, default=DEFAULT_SITE_COPY,
-                        help="frontend data copy under public/data/")
+                        help="optional public/data/ copy (Cloudflare builds this)")
     parser.add_argument("--no-site-copy", action="store_true",
-                        help="do not copy data into public/data/")
+                        help="skip public/data/ copy (CI uses this; Pages rebuilds)")
     parser.add_argument("--dry-run", action="store_true",
                         help="fetch and report but do not write")
     parser.add_argument("--history-api", action="store_true", default=True,
@@ -289,4 +289,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-

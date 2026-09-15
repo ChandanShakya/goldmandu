@@ -13,7 +13,8 @@ Rates from the Federation of Nepal Gold and Silver Dealers' Association ([Fenego
 | PWA | Manifest + service worker (offline shell, network-first prices) |
 | Data | `data/prices.json` (canonical); `public/data/` is a build copy |
 | Scraper | `scraper/` Python package (`nepali-datetime` only) |
-| CI | GitHub Actions → scrape → validate → build → deploy Pages |
+| CI | GitHub Actions → scrape → validate → commit `data/prices.json` |
+| Host | **Cloudflare Pages** (builds `dist/` on push) |
 
 ## Quick start
 
@@ -79,18 +80,36 @@ scripts/sync-data.mjs
 Fenegosida API  (monthwisehistory / datewisehistory / today)
         │
         ▼
-python -m scraper  →  data/prices.json  (+ public/data copy)
+GitHub Actions: python -m scraper  →  validate  →  commit data/prices.json
         │
         ▼
-npm run build  →  dist/
-        │
-        ▼
-GitHub Pages (actions/deploy-pages)
+Cloudflare Pages (on push): npm run build  →  dist/  →  global CDN
 ```
 
 Daily cron `45 2 * * *` (08:30 NPT). API keeps only ~1–2 months — keep the schedule alive.
 
 History-page **By Month** is implemented in `scraper/history.py` (BS month → AD date → `monthwisehistory`). Older months return empty; `--backfill` uses Wayback for those gaps only.
+
+## Host on Cloudflare Pages
+
+1. Cloudflare dashboard → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**
+2. Pick this repo (branch `main`)
+3. Build settings:
+   - Framework preset: **Astro**
+   - Build command: `npm run build`
+   - Build output: `dist`
+   - Node: 22 (or leave default if it is ≥18)
+4. Deploy. After the first green build, attach a custom domain if you have one.
+
+The daily Actions job only scrapes and commits `data/prices.json`. That push rebuilds Pages automatically (Cloudflare git integration).
+
+Optional deploy hook (if you do **not** use git integration):  
+Pages project → **Settings** → **Builds & deployments** → **Deploy hooks** → copy URL → GitHub secret `CLOUDFLARE_DEPLOY_HOOK`.
+
+### Turn off GitHub Pages (if it was on)
+
+Repo → **Settings** → **Pages** → Source: **None**.  
+You can delete any old `gh-pages` branch. The Actions workflow no longer uploads a Pages artifact.
 
 ## Data record
 
@@ -112,10 +131,15 @@ History-page **By Month** is implemented in `scraper/history.py` (BS month → A
 
 ## CI secrets
 
-`MAIN_USERNAME`, `MAIN_EMAIL`, optional `N8N_WEBHOOK_URL`.  
-Settings → Pages → Source: **GitHub Actions**.
+| Secret | Required | Purpose |
+|--------|----------|---------|
+| `MAIN_USERNAME` | yes (or bot default) | Git commit author |
+| `MAIN_EMAIL` | yes (or bot default) | Git commit email |
+| `CLOUDFLARE_DEPLOY_HOOK` | optional | Only if not using CF git integration |
+| `N8N_WEBHOOK_URL` | optional | Success notify |
+
+GitHub **Pages** is no longer used. Site is on Cloudflare Pages.
 
 ## Status
 
 Idea 2022-05-20. Astro static site + validated scraper pipeline (2026).
-
