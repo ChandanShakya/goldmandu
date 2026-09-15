@@ -1,5 +1,6 @@
 # GoldMandu
 
+Accessible at : [https://goldmandu.chandanshakya.com.np](https://goldmandu.chandanshakya.com.np)
 Nepal **gold & silver price board** — Astro static site + Python scraper on GitHub Actions.
 
 Rates from the Federation of Nepal Gold and Silver Dealers' Association ([Fenegosida](https://fenegosida.org)) in NPR per **tola** and per **10 grams**, on the **Bikram Sambat (BS)** calendar.
