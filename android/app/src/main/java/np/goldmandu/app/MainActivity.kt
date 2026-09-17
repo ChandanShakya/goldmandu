@@ -70,9 +70,17 @@ class MainActivity : AppCompatActivity() {
       if (on) {
         ensureNotifPermission()
         Scheduler.ensureDaily(this)
+        // Immediate sticky rate card so the user sees it worked
+        np.goldmandu.app.notify.Notifier.postLatest(this, force = true)
       } else {
         Scheduler.cancel(this)
+        np.goldmandu.app.notify.Notifier.cancel(this)
       }
+    }
+
+    // Refresh sticky card when app opens if alerts are on
+    if (Prefs.alertsEnabled(this)) {
+      np.goldmandu.app.notify.Notifier.postLatest(this, force = true)
     }
 
     Prefs.cachedLatest(this)?.let { raw ->

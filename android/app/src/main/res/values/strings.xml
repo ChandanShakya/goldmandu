@@ -9,9 +9,13 @@
   <string name="per_gram">/10g</string>
   <string name="history_title">90-day chart</string>
   <string name="history_subtitle">Fine gold · per tola</string>
-  <string name="history_hint">Fine · Tejabi · Silver · tap or drag to inspect</string>
-  <string name="open_history">View 90-day chart  ›</string>
-  <string name="alerts">Daily alert</string>
+  <string name="history_hint">Tap or drag to inspect a day</string>
+  <string name="tab_fine">Fine</string>
+  <string name="tab_tejabi">Tejabi</string>
+  <string name="tab_silver">Silver</string>
+  <string name="open_history">View 90-day chart</string>
+  <string name="open_history_short">Chart</string>
+  <string name="alerts">Alert</string>
   <string name="loading">Loading…</string>
   <string name="offline">Last saved rates</string>
   <string name="error_load">Could not load. Pull to retry.</string>

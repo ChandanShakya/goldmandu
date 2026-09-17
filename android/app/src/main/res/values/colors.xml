@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="paper">#FFFFFFFF</color>
-  <color name="ink">#FF111111</color>
-  <color name="muted">#FF555555</color>
-  <color name="accent">#FF6B5A1E</color>
-  <color name="rule">#FF111111</color>
-  <color name="hairline">#FFE5E5E5</color>
-  <color name="up">#FF1A7F37</color>
-  <color name="down">#FFB42318</color>
-  <color name="spark_fill">#146B5A1E</color>
-  <color name="spark_stroke">#FF6B5A1E</color>
-  <!-- Series: fine (accent), tejabi (darker gold), silver (steel) -->
-  <color name="series_fine">#FF6B5A1E</color>
-  <color name="series_tejabi">#FFA08C3C</color>
-  <color name="series_silver">#FF3D5A80</color>
+  <color name="paper">#FFF7F6F3</color>
+  <color name="surface">#FFFFFFFF</color>
+  <color name="ink">#FF1A1A1A</color>
+  <color name="muted">#FF6B7280</color>
+  <color name="accent">#FFB8860B</color>
+  <color name="accent_soft">#1AB8860B</color>
+  <color name="rule">#FFE8E6E1</color>
+  <color name="hairline">#FFE8E6E1</color>
+  <color name="up">#FF059669</color>
+  <color name="down">#FFDC2626</color>
+  <color name="spark_fill">#22B8860B</color>
+  <color name="spark_stroke">#FFB8860B</color>
+  <color name="series_fine">#FFB8860B</color>
+  <color name="series_tejabi">#FFD4A017</color>
+  <color name="series_silver">#FF5B7C99</color>
+  <color name="chip_bg">#FFF0EEE8</color>
 </resources>
