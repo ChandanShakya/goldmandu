@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <!-- Mirrors goldmandu.chandanshakya.com.np -->
   <color name="paper">#FFFFFFFF</color>
   <color name="ink">#FF111111</color>
   <color name="muted">#FF555555</color>
@@ -11,4 +10,8 @@
   <color name="down">#FFB42318</color>
   <color name="spark_fill">#146B5A1E</color>
   <color name="spark_stroke">#FF6B5A1E</color>
+  <!-- Series: fine (accent), tejabi (darker gold), silver (steel) -->
+  <color name="series_fine">#FF6B5A1E</color>
+  <color name="series_tejabi">#FFA08C3C</color>
+  <color name="series_silver">#FF3D5A80</color>
 </resources>

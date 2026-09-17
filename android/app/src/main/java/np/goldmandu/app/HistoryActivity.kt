@@ -30,6 +30,7 @@ class HistoryActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_history)
+    Insets.apply(this, findViewById(android.R.id.content))
 
     spark = findViewById(R.id.spark)
     statLow = findViewById(R.id.statLow)

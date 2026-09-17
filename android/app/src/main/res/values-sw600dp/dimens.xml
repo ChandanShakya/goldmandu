@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!-- Tablets / large phones: cap column width so type and chart stay readable -->
+  <dimen name="content_max_width">480dp</dimen>
+  <dimen name="screen_pad_h">32dp</dimen>
+</resources>

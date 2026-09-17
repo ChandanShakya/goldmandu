@@ -9,5 +9,7 @@
   <color name="down">#FFFF6B6B</color>
   <color name="spark_fill">#226B5A1E</color>
   <color name="spark_stroke">#FFC4B478</color>
-  <!-- status/nav icons stay light on dark -->
+  <color name="series_fine">#FFC4B478</color>
+  <color name="series_tejabi">#FF8A7A45</color>
+  <color name="series_silver">#FF8AB4F8</color>
 </resources>
