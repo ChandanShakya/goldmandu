@@ -24,8 +24,8 @@
           android:orientation="vertical"
           android:paddingStart="20dp"
           android:paddingEnd="20dp"
-          android:paddingTop="20dp"
-          android:paddingBottom="12dp">
+          android:paddingTop="16dp"
+          android:paddingBottom="10dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -40,11 +40,11 @@
             android:id="@+id/bsDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="3dp"
             android:textColor="@color/muted"
             android:textSize="13sp"
             android:fontFamily="sans-serif"
-            tools:text="31 Bhadra 2083" />
+            tools:text="1 Ashoj 2083" />
       </LinearLayout>
 
       <View
@@ -52,14 +52,15 @@
           android:layout_height="2dp"
           android:background="@color/rule" />
 
+      <!-- Hero -->
       <LinearLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:orientation="vertical"
           android:paddingStart="20dp"
           android:paddingEnd="20dp"
-          android:paddingTop="28dp"
-          android:paddingBottom="24dp">
+          android:paddingTop="24dp"
+          android:paddingBottom="20dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -75,43 +76,146 @@
             android:id="@+id/heroPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="6dp"
             android:textColor="@color/ink"
-            android:textSize="40sp"
+            android:textSize="38sp"
             android:textStyle="bold"
             android:fontFamily="serif"
             android:includeFontPadding="false"
-            tools:text="Rs. 3,01,800" />
+            tools:text="Rs. 2,99,500" />
 
-        <TextView
-            android:id="@+id/heroUnit"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@string/per_tola"
-            android:textColor="@color/muted"
-            android:textSize="13sp"
-            android:fontFamily="sans-serif" />
+            android:layout_marginTop="6dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/heroDelta"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:fontFamily="sans-serif"
-            tools:text="↑ +1,700 (0.57%)" />
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/per_tola"
+              android:textColor="@color/muted"
+              android:textSize="13sp"
+              android:fontFamily="sans-serif" />
+
+          <TextView
+              android:id="@+id/heroDelta"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="12dp"
+              android:textSize="14sp"
+              android:textStyle="bold"
+              android:fontFamily="sans-serif"
+              tools:text="↑ +1,700 (0.57%)" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/heroGram"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="8dp"
             android:textColor="@color/muted"
             android:textSize="14sp"
             android:fontFamily="sans-serif"
-            tools:text="Rs. 2,58,745 /10g" />
+            tools:text="Rs. 2,56,775 /10g" />
+      </LinearLayout>
+
+      <View
+          android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:background="@color/hairline" />
+
+      <!-- 7d / range insights -->
+      <LinearLayout
+          android:id="@+id/insights"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          android:paddingStart="20dp"
+          android:paddingEnd="20dp"
+          android:paddingTop="14dp"
+          android:paddingBottom="14dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/avg7"
+              android:textColor="@color/muted"
+              android:textSize="11sp"
+              android:fontFamily="sans-serif" />
+
+          <TextView
+              android:id="@+id/insAvg"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="2dp"
+              android:textColor="@color/ink"
+              android:textSize="15sp"
+              android:textStyle="bold"
+              android:fontFamily="serif"
+              tools:text="Rs. —" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/range90"
+              android:textColor="@color/muted"
+              android:textSize="11sp"
+              android:fontFamily="sans-serif" />
+
+          <TextView
+              android:id="@+id/insRange"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="2dp"
+              android:textColor="@color/ink"
+              android:textSize="15sp"
+              android:textStyle="bold"
+              android:fontFamily="serif"
+              tools:text="—" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:orientation="vertical">
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/ratio"
+              android:textColor="@color/muted"
+              android:textSize="11sp"
+              android:fontFamily="sans-serif" />
+
+          <TextView
+              android:id="@+id/insRatio"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="2dp"
+              android:textColor="@color/ink"
+              android:textSize="15sp"
+              android:textStyle="bold"
+              android:fontFamily="serif"
+              tools:text="—" />
+        </LinearLayout>
       </LinearLayout>
 
       <View
@@ -156,9 +260,9 @@
           android:gravity="center_vertical"
           android:orientation="horizontal"
           android:paddingStart="20dp"
-          android:paddingEnd="20dp"
-          android:paddingTop="16dp"
-          android:paddingBottom="24dp">
+          android:paddingEnd="16dp"
+          android:paddingTop="14dp"
+          android:paddingBottom="20dp">
 
         <TextView
             android:id="@+id/status"
@@ -168,7 +272,7 @@
             android:textColor="@color/muted"
             android:textSize="12sp"
             android:fontFamily="sans-serif"
-            tools:text="As of 31 Bhadra 2083" />
+            tools:text="As of 1 Ashoj 2083" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/alertSwitch"

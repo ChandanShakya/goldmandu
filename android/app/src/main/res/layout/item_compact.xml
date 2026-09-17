@@ -7,32 +7,33 @@
     android:orientation="horizontal"
     android:paddingStart="20dp"
     android:paddingEnd="20dp"
-    android:paddingTop="16dp"
-    android:paddingBottom="16dp"
-    android:minHeight="64dp"
-    android:background="?android:attr/selectableItemBackground">
+    android:paddingTop="14dp"
+    android:paddingBottom="14dp"
+    android:minHeight="68dp">
 
   <LinearLayout
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_weight="1"
-      android:orientation="vertical">
+      android:orientation="vertical"
+      android:paddingEnd="12dp">
 
     <TextView
         android:id="@+id/metalLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/muted"
-        android:textSize="13sp"
-        android:fontFamily="sans-serif"
-        tools:text="Tejabi gold · 22K" />
+        android:textColor="@color/ink"
+        android:textSize="14sp"
+        android:fontFamily="sans-serif-medium"
+        tools:text="Tejabi · 22K" />
 
     <TextView
         android:id="@+id/delta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="3dp"
         android:textSize="12sp"
+        android:textStyle="bold"
         android:fontFamily="sans-serif"
         tools:text="↑ +1,615" />
   </LinearLayout>
@@ -52,7 +53,7 @@
         android:textStyle="bold"
         android:fontFamily="serif"
         android:includeFontPadding="false"
-        tools:text="Rs. 2,86,710" />
+        tools:text="Rs. 2,84,525" />
 
     <TextView
         android:id="@+id/priceGram"
@@ -62,6 +63,6 @@
         android:textColor="@color/muted"
         android:textSize="12sp"
         android:fontFamily="sans-serif"
-        tools:text="Rs. 2,45,808 /10g" />
+        tools:text="Rs. 2,43,936 /10g" />
   </LinearLayout>
 </LinearLayout>

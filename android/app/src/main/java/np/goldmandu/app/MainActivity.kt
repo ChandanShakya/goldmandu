@@ -19,6 +19,7 @@ import np.goldmandu.app.data.Api
 import np.goldmandu.app.data.Latest
 import np.goldmandu.app.data.Parser
 import np.goldmandu.app.notify.Scheduler
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,6 +30,9 @@ class MainActivity : AppCompatActivity() {
   private lateinit var heroPrice: TextView
   private lateinit var heroDelta: TextView
   private lateinit var heroGram: TextView
+  private lateinit var insAvg: TextView
+  private lateinit var insRange: TextView
+  private lateinit var insRatio: TextView
   private lateinit var alertSwitch: SwitchCompat
 
   private val notifPermission =
@@ -47,6 +51,9 @@ class MainActivity : AppCompatActivity() {
     heroPrice = findViewById(R.id.heroPrice)
     heroDelta = findViewById(R.id.heroDelta)
     heroGram = findViewById(R.id.heroGram)
+    insAvg = findViewById(R.id.insAvg)
+    insRange = findViewById(R.id.insRange)
+    insRatio = findViewById(R.id.insRatio)
     alertSwitch = findViewById(R.id.alertSwitch)
 
     swipe.setColorSchemeColors(ContextCompat.getColor(this, R.color.accent))
@@ -70,6 +77,7 @@ class MainActivity : AppCompatActivity() {
     Prefs.cachedLatest(this)?.let { raw ->
       runCatching { Parser.parseLatest(raw) }.onSuccess { bindLatest(it, fromCache = true) }
     }
+    bindInsightsFromCache()
     loadLatest()
   }
 
@@ -88,15 +96,13 @@ class MainActivity : AppCompatActivity() {
       try {
         val raw = Api.fetchLatest()
         val latest = Parser.parseLatest(raw)
-        // Keep history cache warm for the chart screen when network is free.
-        runCatching {
-          val hist = Api.fetchHistory()
-          Prefs.cacheJson(this, raw, hist)
-        }.onFailure {
-          Prefs.cacheJson(this, raw, Prefs.cachedHistory(this) ?: "[]")
+        val hist = runCatching { Api.fetchHistory() }.getOrElse {
+          Prefs.cachedHistory(this) ?: "[]"
         }
+        Prefs.cacheJson(this, raw, hist)
         runOnUiThread {
           bindLatest(latest, fromCache = false)
+          bindInsights(latest, Parser.parseHistory(hist))
           swipe.isRefreshing = false
         }
       } catch (_: Exception) {
@@ -131,7 +137,6 @@ class MainActivity : AppCompatActivity() {
       latest.tejabiGoldGram,
       latest.change.tejabiTola,
       latest.change.tejabiPct,
-      addRule = false,
     )
     addRule()
     addCompact(
@@ -140,8 +145,35 @@ class MainActivity : AppCompatActivity() {
       latest.silverGram,
       latest.change.silverTola,
       latest.change.silverPct,
-      addRule = true,
     )
+  }
+
+  private fun bindInsightsFromCache() {
+    val latestRaw = Prefs.cachedLatest(this) ?: return
+    val histRaw = Prefs.cachedHistory(this) ?: return
+    runCatching {
+      bindInsights(Parser.parseLatest(latestRaw), Parser.parseHistory(histRaw))
+    }
+  }
+
+  private fun bindInsights(latest: Latest, history: np.goldmandu.app.data.History) {
+    val fine = history.points.map { it.fine }
+    if (fine.size >= 3) {
+      val avg = fine.takeLast(7).average()
+      insAvg.text = "Rs. ${Npr.format(avg)}"
+      insRange.text = "${Npr.format(fine.min())}–${Npr.format(fine.max())}"
+    } else {
+      insAvg.text = "Rs. —"
+      insRange.text = "—"
+    }
+
+    val fineNow = latest.fineGoldTola
+    val silverNow = latest.silverTola
+    if (fineNow != null && silverNow != null && silverNow > 0) {
+      insRatio.text = String.format(Locale.US, "%.0f : 1", fineNow / silverNow)
+    } else {
+      insRatio.text = "—"
+    }
   }
 
   private fun addRule() {
@@ -165,7 +197,6 @@ class MainActivity : AppCompatActivity() {
     gram: Double?,
     chg: Double?,
     chgPct: Double?,
-    addRule: Boolean,
   ) {
     val row = LayoutInflater.from(this).inflate(R.layout.item_compact, compact, false)
     row.findViewById<TextView>(R.id.metalLabel).text = label
@@ -179,14 +210,28 @@ class MainActivity : AppCompatActivity() {
   private fun bindDelta(view: TextView, chg: Double?, chgPct: Double?) {
     if (chg == null) {
       view.text = ""
+      view.visibility = View.GONE
       return
     }
-    val arrow = if (chg > 0) "↑" else if (chg < 0) "↓" else "·"
-    val pct = chgPct?.let { String.format(" (%.2f%%)", it) } ?: ""
-    view.text = "$arrow ${Npr.signed(chg)}$pct"
+    view.visibility = View.VISIBLE
+    val arrow = when {
+      chg > 0.5 -> "↑"
+      chg < -0.5 -> "↓"
+      else -> "·"
+    }
+    val pct = chgPct?.let {
+      String.format(Locale.US, " (%.2f%%)", kotlin.math.abs(it)).let { p ->
+        if (chg < -0.5) p else if (chg > 0.5) p else ""
+      }
+    } ?: ""
+    view.text = if (kotlin.math.abs(chg) < 0.5 && chgPct == null) {
+      getString(R.string.delta_flat)
+    } else {
+      "$arrow ${Npr.signed(chg)}$pct"
+    }
     val color = when {
-      chg > 0 -> R.color.up
-      chg < 0 -> R.color.down
+      chg > 0.5 -> R.color.up
+      chg < -0.5 -> R.color.down
       else -> R.color.muted
     }
     view.setTextColor(ContextCompat.getColor(this, color))

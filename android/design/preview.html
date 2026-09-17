@@ -204,8 +204,37 @@
       line-height: 1.05;
     }
     .hero .unit { margin-top: 3px; font-size: 12px; color: var(--muted); }
-    .hero .delta { margin-top: 10px; font-size: 13px; font-weight: 700; }
-    .hero .sub { margin-top: 5px; font-size: 13px; color: var(--muted); }
+    .hero .row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 6px;
+    }
+    .hero .delta { font-size: 13px; font-weight: 700; }
+    .hero .sub { margin-top: 8px; font-size: 13px; color: var(--muted); }
+
+    .insights {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 6px;
+      padding: 12px 16px;
+      flex: 0 0 auto;
+    }
+    .insights .s {
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .insights .v {
+      font-family: Georgia, serif;
+      font-size: 13px;
+      font-weight: 700;
+      margin-top: 2px;
+      color: var(--ink);
+    }
+    .insights .mid { text-align: center; }
+    .insights .end { text-align: right; }
 
     .delta.up, .d.up { color: var(--up); }
     .delta.down, .d.down { color: var(--down); }
@@ -551,14 +580,31 @@
               <div class="hero">
                 <div class="kicker">Fine gold · 24K</div>
                 <div class="price">Rs. 3,01,800</div>
-                <div class="unit">/tola</div>
-                <div class="delta up">↑ +1,700 (0.57%)</div>
+                <div class="row">
+                  <span class="unit" style="margin:0">/tola</span>
+                  <span class="delta up">↑ +1,700 (0.57%)</span>
+                </div>
                 <div class="sub">Rs. 2,58,745 /10g</div>
+              </div>
+              <div class="hair"></div>
+              <div class="insights">
+                <div>
+                  <div class="s">7-day avg</div>
+                  <div class="v">Rs. 2,96,400</div>
+                </div>
+                <div class="mid">
+                  <div class="s">90-day</div>
+                  <div class="v">2.74–3.28L</div>
+                </div>
+                <div class="end">
+                  <div class="s">Au : Ag</div>
+                  <div class="v">64 : 1</div>
+                </div>
               </div>
               <div class="hair"></div>
               <div class="compact">
                 <div>
-                  <div class="name">Tejabi · 22K</div>
+                  <div class="name" style="color:var(--ink)">Tejabi · 22K</div>
                   <div class="d up">↑ +1,615</div>
                 </div>
                 <div>
@@ -569,7 +615,7 @@
               <div class="hair"></div>
               <div class="compact">
                 <div>
-                  <div class="name">Silver</div>
+                  <div class="name" style="color:var(--ink)">Silver</div>
                   <div class="d up">↑ +85</div>
                 </div>
                 <div>
@@ -578,11 +624,11 @@
                 </div>
               </div>
               <div class="hair"></div>
-              <div class="link">90-day chart  ›</div>
+              <div class="link">View 90-day chart  ›</div>
               <div class="hair"></div>
               <div class="foot">
                 <span>As of 31 Bhadra 2083</span>
-                <span class="foot-row">Alert <span class="sw"></span></span>
+                <span class="foot-row">Daily alert <span class="sw"></span></span>
               </div>
             </div>
           </div>
@@ -604,14 +650,31 @@
               <div class="hero">
                 <div class="kicker">Fine gold · 24K</div>
                 <div class="price">Rs. 3,01,800</div>
-                <div class="unit">/tola</div>
-                <div class="delta up">↑ +1,700 (0.57%)</div>
+                <div class="row">
+                  <span class="unit" style="margin:0">/tola</span>
+                  <span class="delta up">↑ +1,700 (0.57%)</span>
+                </div>
                 <div class="sub">Rs. 2,58,745 /10g</div>
+              </div>
+              <div class="hair"></div>
+              <div class="insights">
+                <div>
+                  <div class="s">7-day avg</div>
+                  <div class="v">Rs. 2,96,400</div>
+                </div>
+                <div class="mid">
+                  <div class="s">90-day</div>
+                  <div class="v">2.74–3.28L</div>
+                </div>
+                <div class="end">
+                  <div class="s">Au : Ag</div>
+                  <div class="v">64 : 1</div>
+                </div>
               </div>
               <div class="hair"></div>
               <div class="compact">
                 <div>
-                  <div class="name">Tejabi · 22K</div>
+                  <div class="name" style="color:var(--ink)">Tejabi · 22K</div>
                   <div class="d up">↑ +1,615</div>
                 </div>
                 <div>
@@ -622,7 +685,7 @@
               <div class="hair"></div>
               <div class="compact">
                 <div>
-                  <div class="name">Silver</div>
+                  <div class="name" style="color:var(--ink)">Silver</div>
                   <div class="d up">↑ +85</div>
                 </div>
                 <div>
@@ -631,11 +694,11 @@
                 </div>
               </div>
               <div class="hair"></div>
-              <div class="link">90-day chart  ›</div>
+              <div class="link">View 90-day chart  ›</div>
               <div class="hair"></div>
               <div class="foot">
                 <span>As of 31 Bhadra 2083</span>
-                <span class="foot-row">Alert <span class="sw"></span></span>
+                <span class="foot-row">Daily alert <span class="sw"></span></span>
               </div>
             </div>
           </div>
@@ -700,8 +763,8 @@
     <!-- ================= CHART ================= -->
     <h2 id="chart">2 · Chart page</h2>
     <p class="note">
-      Separate activity. Back returns to home. Full-height sparkline plus low / now / high.
-      Nothing else on the screen.
+      Tap or drag the chart to inspect a day. Y-axis shows price scale, X-axis shows dates.
+      Selected day lists fine / tejabi / silver (/tola) plus day change.
     </p>
     <div class="gallery">
 
@@ -717,12 +780,38 @@
                 <div class="t">90-day chart</div>
               </div>
               <div class="rule"></div>
-              <div class="hist-sub">Fine gold · per tola</div>
+              <div class="hist-sub">Fine gold · tap or drag to inspect</div>
               <div class="chart">
                 <svg viewBox="0 0 260 280" preserveAspectRatio="none" aria-hidden="true">
-                  <path d="M8,210 L30,200 L52,206 L74,190 L96,196 L118,180 L140,172 L162,160 L184,150 L206,142 L228,132 L252,120 L252,268 L8,268 Z" fill="rgba(107,90,30,0.12)"></path>
-                  <path d="M8,210 L30,200 L52,206 L74,190 L96,196 L118,180 L140,172 L162,160 L184,150 L206,142 L228,132 L252,120" fill="none" stroke="#6b5a1e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <line x1="40" y1="40" x2="252" y2="40" stroke="#e5e5e5" stroke-width="1"></line>
+                  <line x1="40" y1="140" x2="252" y2="140" stroke="#e5e5e5" stroke-width="1"></line>
+                  <line x1="40" y1="240" x2="252" y2="240" stroke="#e5e5e5" stroke-width="1"></line>
+                  <text x="34" y="44" fill="#555" font-size="9" text-anchor="end">3.3L</text>
+                  <text x="34" y="144" fill="#555" font-size="9" text-anchor="end">3.0L</text>
+                  <text x="34" y="244" fill="#555" font-size="9" text-anchor="end">2.7L</text>
+                  <path d="M40,200 L70,190 L100,206 L130,120 L160,160 L190,90 L220,130 L252,110 L252,240 L40,240 Z" fill="rgba(107,90,30,0.12)"></path>
+                  <path d="M40,200 L70,190 L100,206 L130,120 L160,160 L190,90 L220,130 L252,110" fill="none" stroke="#6b5a1e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <line x1="190" y1="40" x2="190" y2="240" stroke="#6b5a1e" stroke-width="1.5" opacity="0.7"></line>
+                  <circle cx="190" cy="90" r="5" fill="#6b5a1e" stroke="#fff" stroke-width="2"></circle>
+                  <rect x="158" y="52" width="64" height="20" rx="4" fill="#111"></rect>
+                  <text x="190" y="66" fill="#fff" font-size="10" text-anchor="middle">Rs. 3.02L</text>
+                  <text x="40" y="268" fill="#555" font-size="9">15 Ashoj</text>
+                  <text x="146" y="268" fill="#555" font-size="9" text-anchor="middle">30 Ashoj</text>
+                  <text x="252" y="268" fill="#555" font-size="9" text-anchor="end">15 Bhadra</text>
                 </svg>
+              </div>
+              <div style="padding:4px 16px 8px;font-family:system-ui,Arial,sans-serif">
+                <div style="font-size:12px;font-weight:700;color:var(--accent)">15 Ashoj 2083</div>
+                <div style="font-size:11px;font-weight:700;color:var(--up);margin-top:2px">↑ +1,700 (0.57%)</div>
+                <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:12px">
+                  <span style="color:var(--muted)">Fine · 24K /tola</span><span style="font-family:Georgia,serif;font-weight:700">Rs. 3,02,100</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-top:2px;font-size:12px">
+                  <span style="color:var(--muted)">Tejabi · 22K /tola</span><span style="font-family:Georgia,serif;font-weight:700">Rs. 2,86,995</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-top:2px;font-size:12px">
+                  <span style="color:var(--muted)">Silver /tola</span><span style="font-family:Georgia,serif;font-weight:700">Rs. 4,690</span>
+                </div>
               </div>
               <div class="stats">
                 <div>
@@ -755,12 +844,38 @@
                 <div class="t">90-day chart</div>
               </div>
               <div class="rule"></div>
-              <div class="hist-sub">Fine gold · per tola</div>
+              <div class="hist-sub">Fine gold · tap or drag to inspect</div>
               <div class="chart">
                 <svg viewBox="0 0 260 280" preserveAspectRatio="none" aria-hidden="true">
-                  <path d="M8,210 L30,200 L52,206 L74,190 L96,196 L118,180 L140,172 L162,160 L184,150 L206,142 L228,132 L252,120 L252,268 L8,268 Z" fill="rgba(196,180,120,0.15)"></path>
-                  <path d="M8,210 L30,200 L52,206 L74,190 L96,196 L118,180 L140,172 L162,160 L184,150 L206,142 L228,132 L252,120" fill="none" stroke="#c4b478" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <line x1="40" y1="40" x2="252" y2="40" stroke="#2a2a2a" stroke-width="1"></line>
+                  <line x1="40" y1="140" x2="252" y2="140" stroke="#2a2a2a" stroke-width="1"></line>
+                  <line x1="40" y1="240" x2="252" y2="240" stroke="#2a2a2a" stroke-width="1"></line>
+                  <text x="34" y="44" fill="#a8a8a8" font-size="9" text-anchor="end">3.3L</text>
+                  <text x="34" y="144" fill="#a8a8a8" font-size="9" text-anchor="end">3.0L</text>
+                  <text x="34" y="244" fill="#a8a8a8" font-size="9" text-anchor="end">2.7L</text>
+                  <path d="M40,200 L70,190 L100,206 L130,120 L160,160 L190,90 L220,130 L252,110 L252,240 L40,240 Z" fill="rgba(196,180,120,0.15)"></path>
+                  <path d="M40,200 L70,190 L100,206 L130,120 L160,160 L190,90 L220,130 L252,110" fill="none" stroke="#c4b478" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <line x1="190" y1="40" x2="190" y2="240" stroke="#c4b478" stroke-width="1.5" opacity="0.7"></line>
+                  <circle cx="190" cy="90" r="5" fill="#c4b478" stroke="#121212" stroke-width="2"></circle>
+                  <rect x="158" y="52" width="64" height="20" rx="4" fill="#f5f5f5"></rect>
+                  <text x="190" y="66" fill="#111" font-size="10" text-anchor="middle">Rs. 3.02L</text>
+                  <text x="40" y="268" fill="#a8a8a8" font-size="9">15 Ashoj</text>
+                  <text x="146" y="268" fill="#a8a8a8" font-size="9" text-anchor="middle">30 Ashoj</text>
+                  <text x="252" y="268" fill="#a8a8a8" font-size="9" text-anchor="end">15 Bhadra</text>
                 </svg>
+              </div>
+              <div style="padding:4px 16px 8px;font-family:system-ui,Arial,sans-serif">
+                <div style="font-size:12px;font-weight:700;color:var(--accent)">15 Ashoj 2083</div>
+                <div style="font-size:11px;font-weight:700;color:var(--night-up,#3ddc84);margin-top:2px">↑ +1,700 (0.57%)</div>
+                <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:12px">
+                  <span style="color:var(--muted)">Fine · 24K /tola</span><span style="font-family:Georgia,serif;font-weight:700">Rs. 3,02,100</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-top:2px;font-size:12px">
+                  <span style="color:var(--muted)">Tejabi · 22K /tola</span><span style="font-family:Georgia,serif;font-weight:700">Rs. 2,86,995</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-top:2px;font-size:12px">
+                  <span style="color:var(--muted)">Silver /tola</span><span style="font-family:Georgia,serif;font-weight:700">Rs. 4,690</span>
+                </div>
               </div>
               <div class="stats">
                 <div>
