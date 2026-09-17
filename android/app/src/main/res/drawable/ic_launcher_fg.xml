@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+  <!-- Inset gold bar mark on olive field (adaptive-icon fg safe zone ~66%) -->
+  <path
+      android:fillColor="#FFFFFF"
+      android:pathData="M34,42h40v8H34zM34,54h40v6H34zM34,64h40v6H34z"/>
+  <path
+      android:fillColor="#FFFFFF"
+      android:pathData="M54,28L36,40h36L54,28z"/>
+</vector>

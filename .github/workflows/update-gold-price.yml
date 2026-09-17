@@ -59,12 +59,15 @@ jobs:
         run: |
           python -u -c "from scraper.validate import main; raise SystemExit(main(['data/prices.json']))"
 
+      - name: Generate mobile API JSON
+        run: node scripts/sync-api.mjs
+
       - name: Commit canonical data
         id: commit
         run: |
           git config user.name "$GIT_USER_NAME"
           git config user.email "$GIT_USER_EMAIL"
-          git add data/prices.json
+          git add data/prices.json public/api/latest.json public/api/history.json
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "No price changes to commit."

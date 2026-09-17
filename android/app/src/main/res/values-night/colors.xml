@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <color name="paper">#FF121212</color>
+  <color name="ink">#FFF5F5F5</color>
+  <color name="muted">#FFA8A8A8</color>
+  <color name="rule">#FFF5F5F5</color>
+  <color name="hairline">#FF2A2A2A</color>
+  <color name="up">#FF3DDC84</color>
+  <color name="down">#FFFF6B6B</color>
+  <color name="spark_fill">#226B5A1E</color>
+  <color name="spark_stroke">#FFC4B478</color>
+  <!-- status/nav icons stay light on dark -->
+</resources>

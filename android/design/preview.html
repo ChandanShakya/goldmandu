@@ -1,0 +1,943 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GoldMandu Android — Minimal UI</title>
+  <style>
+    :root {
+      --paper: #ffffff;
+      --ink: #111111;
+      --muted: #555555;
+      --accent: #6b5a1e;
+      --hair: #e5e5e5;
+      --up: #1a7f37;
+      --down: #b42318;
+      --page: #f3f1ea;
+      --n-paper: #121212;
+      --n-ink: #f5f5f5;
+      --n-muted: #a8a8a8;
+      --n-hair: #2a2a2a;
+      --n-accent: #c4b478;
+      --n-up: #3ddc84;
+      --n-down: #ff6b6b;
+      --phone-w: 288px;
+      --phone-h: 600px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+      background: var(--page);
+      color: var(--ink);
+      line-height: 1.45;
+      padding: 24px 14px 56px;
+    }
+
+    .wrap { max-width: 1040px; margin: 0 auto; }
+
+    header.page {
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 14px;
+      margin-bottom: 4px;
+    }
+    h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.55rem;
+      letter-spacing: -0.02em;
+    }
+    .lede {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 6px;
+      max-width: 62ch;
+    }
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 14px;
+      margin-top: 12px;
+      font-size: 0.84rem;
+    }
+    nav a {
+      color: var(--ink);
+      text-decoration: none;
+      padding: 4px 0;
+      border-bottom: 1px solid transparent;
+    }
+    nav a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+    h2 {
+      font-family: Georgia, serif;
+      font-size: 1.08rem;
+      margin: 32px 0 6px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--ink);
+    }
+    .note {
+      color: var(--muted);
+      font-size: 0.84rem;
+      margin-bottom: 16px;
+      max-width: 64ch;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(288px, 1fr));
+      gap: 22px 18px;
+      justify-items: start;
+    }
+    .cell { width: 100%; max-width: 288px; }
+    .label {
+      font-size: 0.72rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+      line-height: 1.35;
+    }
+    .label strong {
+      display: block;
+      font-family: Georgia, serif;
+      font-size: 0.95rem;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+
+    /* ---- Phone frame: fixed size, no aspect-ratio, no container queries ---- */
+    .phone {
+      width: var(--phone-w);
+      height: var(--phone-h);
+      max-width: 100%;
+      background: #1a1a1a;
+      border-radius: 28px;
+      padding: 10px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16);
+      position: relative;
+    }
+    .screen {
+      width: 100%;
+      height: 100%;
+      background: var(--paper);
+      color: var(--ink);
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      font-family: system-ui, Arial, sans-serif;
+    }
+    .phone.night .screen {
+      --paper: var(--n-paper);
+      --ink: var(--n-ink);
+      --muted: var(--n-muted);
+      --hair: var(--n-hair);
+      --accent: var(--n-accent);
+      --up: var(--n-up);
+      --down: var(--n-down);
+      background: var(--n-paper);
+      color: var(--n-ink);
+    }
+    .notch {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      margin-left: -44px;
+      width: 88px;
+      height: 14px;
+      background: #1a1a1a;
+      border-radius: 8px;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .sb {
+      flex: 0 0 28px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 0 14px 2px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .content {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    /* Shared pieces */
+    .masthead { padding: 12px 16px 10px; }
+    .masthead .brand {
+      font-family: Georgia, serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .masthead .bs {
+      margin-top: 2px;
+      font-size: 11.5px;
+      color: var(--muted);
+    }
+    .rule { flex: 0 0 2px; background: var(--ink); }
+    .hair { flex: 0 0 1px; background: var(--hair); margin: 0 16px; }
+
+    .hero { padding: 20px 16px 16px; }
+    .hero .kicker {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .hero .price {
+      font-family: Georgia, serif;
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-top: 8px;
+      line-height: 1.05;
+    }
+    .hero .unit { margin-top: 3px; font-size: 12px; color: var(--muted); }
+    .hero .delta { margin-top: 10px; font-size: 13px; font-weight: 700; }
+    .hero .sub { margin-top: 5px; font-size: 13px; color: var(--muted); }
+
+    .delta.up, .d.up { color: var(--up); }
+    .delta.down, .d.down { color: var(--down); }
+
+    .compact {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 16px;
+      flex: 0 0 auto;
+    }
+    .compact .name { font-size: 12.5px; color: var(--muted); }
+    .compact .d { font-size: 11px; font-weight: 700; margin-top: 1px; }
+    .compact .val {
+      font-family: Georgia, serif;
+      font-size: 15px;
+      font-weight: 700;
+      text-align: right;
+      line-height: 1.2;
+    }
+    .compact .g {
+      font-size: 11px;
+      color: var(--muted);
+      text-align: right;
+      margin-top: 1px;
+    }
+
+    .link {
+      padding: 14px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+      flex: 0 0 auto;
+    }
+
+    .foot {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 12px 16px 16px;
+      font-size: 11px;
+      color: var(--muted);
+      flex: 0 0 auto;
+    }
+    .foot-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--ink);
+      font-weight: 600;
+      font-size: 12px;
+    }
+    .sw {
+      width: 36px;
+      height: 20px;
+      background: var(--accent);
+      border-radius: 10px;
+      position: relative;
+      flex: 0 0 auto;
+    }
+    .sw::after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      width: 16px;
+      height: 16px;
+      background: #fff;
+      border-radius: 50%;
+    }
+    .sw.off { background: #bbb; }
+    .sw.off::after { right: auto; left: 2px; }
+
+    /* History */
+    .hist-bar {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      padding: 6px 12px 8px 4px;
+      flex: 0 0 auto;
+    }
+    .back {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      line-height: 1;
+      color: var(--ink);
+    }
+    .hist-bar .t {
+      font-family: Georgia, serif;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .hist-sub {
+      padding: 12px 16px 0;
+      font-size: 12px;
+      color: var(--muted);
+      flex: 0 0 auto;
+    }
+    .chart {
+      flex: 1 1 auto;
+      min-height: 0;
+      padding: 8px 8px 0;
+    }
+    .chart svg { display: block; width: 100%; height: 100%; }
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 6px;
+      padding: 10px 16px 18px;
+      flex: 0 0 auto;
+    }
+    .stats .s {
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .stats .v {
+      font-family: Georgia, serif;
+      font-size: 13.5px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+    .stats .mid { text-align: center; }
+    .stats .end { text-align: right; }
+
+    /* Notification surfaces */
+    .wall {
+      flex: 1 1 auto;
+      background: linear-gradient(160deg, #c4b478 0%, #6b5a1e 48%, #2a2410 100%);
+      display: flex;
+      flex-direction: column;
+      padding: 24px 10px 12px;
+      min-height: 0;
+    }
+    .lock {
+      text-align: center;
+      color: #fff;
+      margin-top: 16px;
+    }
+    .lock .t {
+      font-size: 40px;
+      font-weight: 300;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    .lock .d { font-size: 11.5px; opacity: 0.85; margin-top: 6px; }
+
+    .nstack { margin-top: auto; display: flex; flex-direction: column; gap: 8px; }
+
+    .notif {
+      background: rgba(255, 255, 255, 0.97);
+      color: #111;
+      border-radius: 14px;
+      padding: 10px 11px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+    }
+    .nh { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+    .ni {
+      width: 16px;
+      height: 16px;
+      background: #6b5a1e;
+      border-radius: 3px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+    }
+    .ni svg { width: 11px; height: 11px; fill: #fff; display: block; }
+    .na { font-size: 10px; font-weight: 700; }
+    .nt { margin-left: auto; font-size: 10px; color: #888; }
+    .ntitle { font-family: Georgia, serif; font-size: 13.5px; font-weight: 700; }
+    .nbody {
+      font-size: 11px;
+      color: #333;
+      margin-top: 2px;
+      line-height: 1.35;
+    }
+
+    .shade {
+      flex: 1 1 auto;
+      background: #1c1c1e;
+      color: #fff;
+      padding: 12px 10px;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    .shade .meta { font-size: 11px; opacity: 0.65; margin-bottom: 10px; padding: 0 2px; }
+    .shade .notif { background: #2c2c2e; color: #fff; }
+    .shade .nbody { color: #ddd; }
+    .shade .nt { color: #999; }
+
+    .dim {
+      flex: 1 1 auto;
+      background: rgba(0, 0, 0, 0.45);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      min-height: 0;
+    }
+    .sheet {
+      background: var(--paper);
+      color: var(--ink);
+      border-top: 2px solid var(--ink);
+      padding: 16px 14px 18px;
+    }
+    .sheet h3 {
+      font-family: Georgia, serif;
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+    .sheet p {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      background: var(--ink);
+      color: var(--paper);
+      border: 0;
+      padding: 11px;
+      font-size: 12.5px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: default;
+    }
+    .phone.night .btn { background: var(--n-ink); color: var(--n-paper); }
+    .btn-ghost {
+      display: block;
+      width: 100%;
+      text-align: center;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--hair);
+      padding: 10px;
+      font-size: 12.5px;
+      font-weight: 600;
+      font-family: inherit;
+      margin-top: 7px;
+      cursor: default;
+    }
+
+    .empty {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px 16px;
+      gap: 6px;
+    }
+    .empty h3 { font-family: Georgia, serif; font-size: 16px; }
+    .empty p { font-size: 12px; color: var(--muted); max-width: 24ch; }
+    .empty .btn { width: auto; padding: 10px 18px; margin-top: 8px; }
+
+    .tokens {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .tok {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border: 1px solid var(--ink);
+      padding: 6px 10px;
+      font-size: 12px;
+      background: #fff;
+    }
+    .swc { width: 14px; height: 14px; border: 1px solid #ccc; flex: 0 0 auto; }
+    code {
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: 0.85em;
+      background: rgba(107, 90, 30, 0.08);
+      padding: 1px 4px;
+    }
+    footer.page {
+      margin-top: 36px;
+      padding-top: 12px;
+      border-top: 1px solid var(--ink);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    /* Narrow phones: keep frame, tighten page padding */
+    @media (max-width: 340px) {
+      body { padding: 16px 8px 40px; }
+      :root { --phone-w: 100%; }
+      .phone { width: 100%; }
+      .cell { max-width: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="page">
+      <h1>GoldMandu Android — minimal UI</h1>
+      <p class="lede">
+        One job per screen. Home = today’s rates only. Chart is a separate page.
+        Editorial type, square rules, olive accent — matches the website.
+        Release APK target under 2&nbsp;MB.
+      </p>
+      <nav>
+        <a href="#home">Home</a>
+        <a href="#chart">Chart</a>
+        <a href="#notify">Notifications</a>
+        <a href="#states">States</a>
+        <a href="#tokens">Tokens</a>
+      </nav>
+    </header>
+
+    <!-- ================= HOME ================= -->
+    <h2 id="home">1 · Home</h2>
+    <p class="note">
+      Hero is fine gold only. Tejabi and silver are compact rows.
+      Alert stays in the footer. No chart on this screen.
+    </p>
+    <div class="gallery">
+
+      <div class="cell">
+        <div class="label"><strong>Light · alerts on</strong>Main screen</div>
+        <div class="phone">
+          <div class="notch"></div>
+          <div class="screen">
+            <div class="sb"><span>9:41</span><span>86%</span></div>
+            <div class="content">
+              <div class="masthead">
+                <div class="brand">GoldMandu</div>
+                <div class="bs">31 Bhadra 2083</div>
+              </div>
+              <div class="rule"></div>
+              <div class="hero">
+                <div class="kicker">Fine gold · 24K</div>
+                <div class="price">Rs. 3,01,800</div>
+                <div class="unit">/tola</div>
+                <div class="delta up">↑ +1,700 (0.57%)</div>
+                <div class="sub">Rs. 2,58,745 /10g</div>
+              </div>
+              <div class="hair"></div>
+              <div class="compact">
+                <div>
+                  <div class="name">Tejabi · 22K</div>
+                  <div class="d up">↑ +1,615</div>
+                </div>
+                <div>
+                  <div class="val">Rs. 2,86,710</div>
+                  <div class="g">Rs. 2,45,808 /10g</div>
+                </div>
+              </div>
+              <div class="hair"></div>
+              <div class="compact">
+                <div>
+                  <div class="name">Silver</div>
+                  <div class="d up">↑ +85</div>
+                </div>
+                <div>
+                  <div class="val">Rs. 4,685</div>
+                  <div class="g">Rs. 4,016 /10g</div>
+                </div>
+              </div>
+              <div class="hair"></div>
+              <div class="link">90-day chart  ›</div>
+              <div class="hair"></div>
+              <div class="foot">
+                <span>As of 31 Bhadra 2083</span>
+                <span class="foot-row">Alert <span class="sw"></span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cell">
+        <div class="label"><strong>Night</strong>DayNight theme</div>
+        <div class="phone night">
+          <div class="notch"></div>
+          <div class="screen">
+            <div class="sb"><span>9:41</span><span>86%</span></div>
+            <div class="content">
+              <div class="masthead">
+                <div class="brand">GoldMandu</div>
+                <div class="bs">31 Bhadra 2083</div>
+              </div>
+              <div class="rule"></div>
+              <div class="hero">
+                <div class="kicker">Fine gold · 24K</div>
+                <div class="price">Rs. 3,01,800</div>
+                <div class="unit">/tola</div>
+                <div class="delta up">↑ +1,700 (0.57%)</div>
+                <div class="sub">Rs. 2,58,745 /10g</div>
+              </div>
+              <div class="hair"></div>
+              <div class="compact">
+                <div>
+                  <div class="name">Tejabi · 22K</div>
+                  <div class="d up">↑ +1,615</div>
+                </div>
+                <div>
+                  <div class="val">Rs. 2,86,710</div>
+                  <div class="g">Rs. 2,45,808 /10g</div>
+                </div>
+              </div>
+              <div class="hair"></div>
+              <div class="compact">
+                <div>
+                  <div class="name">Silver</div>
+                  <div class="d up">↑ +85</div>
+                </div>
+                <div>
+                  <div class="val">Rs. 4,685</div>
+                  <div class="g">Rs. 4,016 /10g</div>
+                </div>
+              </div>
+              <div class="hair"></div>
+              <div class="link">90-day chart  ›</div>
+              <div class="hair"></div>
+              <div class="foot">
+                <span>As of 31 Bhadra 2083</span>
+                <span class="foot-row">Alert <span class="sw"></span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cell">
+        <div class="label"><strong>Day down</strong>Negative deltas</div>
+        <div class="phone">
+          <div class="notch"></div>
+          <div class="screen">
+            <div class="sb"><span>9:41</span><span>86%</span></div>
+            <div class="content">
+              <div class="masthead">
+                <div class="brand">GoldMandu</div>
+                <div class="bs">30 Bhadra 2083</div>
+              </div>
+              <div class="rule"></div>
+              <div class="hero">
+                <div class="kicker">Fine gold · 24K</div>
+                <div class="price">Rs. 3,00,100</div>
+                <div class="unit">/tola</div>
+                <div class="delta down">↓ −2,400 (0.79%)</div>
+                <div class="sub">Rs. 2,57,290 /10g</div>
+              </div>
+              <div class="hair"></div>
+              <div class="compact">
+                <div>
+                  <div class="name">Tejabi · 22K</div>
+                  <div class="d down">↓ −2,280</div>
+                </div>
+                <div>
+                  <div class="val">Rs. 2,85,095</div>
+                  <div class="g">Rs. 2,44,426 /10g</div>
+                </div>
+              </div>
+              <div class="hair"></div>
+              <div class="compact">
+                <div>
+                  <div class="name">Silver</div>
+                  <div class="d down">↓ −120</div>
+                </div>
+                <div>
+                  <div class="val">Rs. 4,600</div>
+                  <div class="g">Rs. 3,944 /10g</div>
+                </div>
+              </div>
+              <div class="hair"></div>
+              <div class="link">90-day chart  ›</div>
+              <div class="hair"></div>
+              <div class="foot">
+                <span>As of 30 Bhadra 2083</span>
+                <span class="foot-row">Alert <span class="sw off"></span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ================= CHART ================= -->
+    <h2 id="chart">2 · Chart page</h2>
+    <p class="note">
+      Separate activity. Back returns to home. Full-height sparkline plus low / now / high.
+      Nothing else on the screen.
+    </p>
+    <div class="gallery">
+
+      <div class="cell">
+        <div class="label"><strong>90-day chart</strong>HistoryActivity</div>
+        <div class="phone">
+          <div class="notch"></div>
+          <div class="screen">
+            <div class="sb"><span>9:41</span><span>86%</span></div>
+            <div class="content">
+              <div class="hist-bar">
+                <div class="back">‹</div>
+                <div class="t">90-day chart</div>
+              </div>
+              <div class="rule"></div>
+              <div class="hist-sub">Fine gold · per tola</div>
+              <div class="chart">
+                <svg viewBox="0 0 260 280" preserveAspectRatio="none" aria-hidden="true">
+                  <path d="M8,210 L30,200 L52,206 L74,190 L96,196 L118,180 L140,172 L162,160 L184,150 L206,142 L228,132 L252,120 L252,268 L8,268 Z" fill="rgba(107,90,30,0.12)"></path>
+                  <path d="M8,210 L30,200 L52,206 L74,190 L96,196 L118,180 L140,172 L162,160 L184,150 L206,142 L228,132 L252,120" fill="none" stroke="#6b5a1e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </div>
+              <div class="stats">
+                <div>
+                  <div class="s">Low</div>
+                  <div class="v">Rs. 2,92,400</div>
+                </div>
+                <div class="mid">
+                  <div class="s">Now</div>
+                  <div class="v">Rs. 3,01,800</div>
+                </div>
+                <div class="end">
+                  <div class="s">High</div>
+                  <div class="v">Rs. 3,04,100</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cell">
+        <div class="label"><strong>Chart · night</strong></div>
+        <div class="phone night">
+          <div class="notch"></div>
+          <div class="screen">
+            <div class="sb"><span>9:41</span><span>86%</span></div>
+            <div class="content">
+              <div class="hist-bar">
+                <div class="back">‹</div>
+                <div class="t">90-day chart</div>
+              </div>
+              <div class="rule"></div>
+              <div class="hist-sub">Fine gold · per tola</div>
+              <div class="chart">
+                <svg viewBox="0 0 260 280" preserveAspectRatio="none" aria-hidden="true">
+                  <path d="M8,210 L30,200 L52,206 L74,190 L96,196 L118,180 L140,172 L162,160 L184,150 L206,142 L228,132 L252,120 L252,268 L8,268 Z" fill="rgba(196,180,120,0.15)"></path>
+                  <path d="M8,210 L30,200 L52,206 L74,190 L96,196 L118,180 L140,172 L162,160 L184,150 L206,142 L228,132 L252,120" fill="none" stroke="#c4b478" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </div>
+              <div class="stats">
+                <div>
+                  <div class="s">Low</div>
+                  <div class="v">Rs. 2,92,400</div>
+                </div>
+                <div class="mid">
+                  <div class="s">Now</div>
+                  <div class="v">Rs. 3,01,800</div>
+                </div>
+                <div class="end">
+                  <div class="s">High</div>
+                  <div class="v">Rs. 3,04,100</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ================= NOTIFICATIONS ================= -->
+    <h2 id="notify">3 · Daily notification</h2>
+    <p class="note">
+      Local notification after the morning scrape. One line of rates. No FCM.
+    </p>
+    <div class="gallery">
+
+      <div class="cell">
+        <div class="label"><strong>Lock screen</strong>Glance</div>
+        <div class="phone">
+          <div class="notch"></div>
+          <div class="screen">
+            <div class="sb" style="color:#fff"><span>8:52</span><span>86%</span></div>
+            <div class="wall">
+              <div class="lock">
+                <div class="t">8:52</div>
+                <div class="d">Tuesday, 16 September</div>
+              </div>
+              <div class="nstack">
+                <div class="notif">
+                  <div class="nh">
+                    <div class="ni"><svg viewBox="0 0 24 24"><path d="M12 2L2 8.5V10h20V8.5L12 2zM4 12v2h2v2h2v2h8v-2h2v-2h2v-2H4z"></path></svg></div>
+                    <span class="na">GoldMandu</span>
+                    <span class="nt">now</span>
+                  </div>
+                  <div class="ntitle">Today’s rates</div>
+                  <div class="nbody">Fine Rs. 3,01,800/tola ↑ +1,700 · Silver Rs. 4,685 · 31 Bhadra 2083</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cell">
+        <div class="label"><strong>Shade</strong>Expanded</div>
+        <div class="phone">
+          <div class="notch"></div>
+          <div class="screen">
+            <div class="shade">
+              <div class="meta">Tue 16 Sep · 8:52</div>
+              <div class="notif">
+                <div class="nh">
+                  <div class="ni"><svg viewBox="0 0 24 24"><path d="M12 2L2 8.5V10h20V8.5L12 2zM4 12v2h2v2h2v2h8v-2h2v-2h2v-2H4z"></path></svg></div>
+                  <span class="na">GoldMandu</span>
+                  <span class="nt">now</span>
+                </div>
+                <div class="ntitle">Today’s rates</div>
+                <div class="nbody">Fine Rs. 3,01,800/tola ↑ +1,700 (0.57%) · Silver Rs. 4,685/tola · 31 Bhadra 2083</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cell">
+        <div class="label"><strong>Permission</strong>API 33+ primer</div>
+        <div class="phone">
+          <div class="notch"></div>
+          <div class="screen">
+            <div class="sb"><span>9:41</span><span>86%</span></div>
+            <div class="dim">
+              <div class="sheet">
+                <h3>Daily rate alert</h3>
+                <p>One notification each morning after rates publish (~8:50 NPT). No spam.</p>
+                <button class="btn" type="button">Allow notifications</button>
+                <button class="btn-ghost" type="button">Not now</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ================= STATES ================= -->
+    <h2 id="states">4 · States</h2>
+    <p class="note">Offline uses last cache. First-launch failure offers retry — never a blank screen.</p>
+    <div class="gallery">
+
+      <div class="cell">
+        <div class="label"><strong>Offline</strong>Last saved rates</div>
+        <div class="phone">
+          <div class="notch"></div>
+          <div class="screen">
+            <div class="sb"><span>9:41</span><span>No data</span></div>
+            <div class="content">
+              <div class="masthead">
+                <div class="brand">GoldMandu</div>
+                <div class="bs">31 Bhadra 2083</div>
+              </div>
+              <div class="rule"></div>
+              <div class="hero">
+                <div class="kicker">Fine gold · 24K</div>
+                <div class="price">Rs. 3,01,800</div>
+                <div class="unit">/tola</div>
+                <div class="delta up">↑ +1,700</div>
+              </div>
+              <div class="hair"></div>
+              <div class="compact">
+                <div><div class="name">Silver</div></div>
+                <div><div class="val">Rs. 4,685</div></div>
+              </div>
+              <div class="foot">
+                <span>Last saved · pull to retry</span>
+                <span class="foot-row">Alert <span class="sw"></span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cell">
+        <div class="label"><strong>Error</strong>No cache</div>
+        <div class="phone">
+          <div class="notch"></div>
+          <div class="screen">
+            <div class="sb"><span>9:41</span><span>No data</span></div>
+            <div class="content">
+              <div class="masthead">
+                <div class="brand">GoldMandu</div>
+                <div class="bs">—</div>
+              </div>
+              <div class="rule"></div>
+              <div class="empty">
+                <h3>Could not load</h3>
+                <p>Check your connection and try again.</p>
+                <button class="btn" type="button">Retry</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ================= TOKENS ================= -->
+    <h2 id="tokens">5 · Tokens</h2>
+    <div class="tokens">
+      <span class="tok"><span class="swc" style="background:#ffffff"></span> paper</span>
+      <span class="tok"><span class="swc" style="background:#111111"></span> ink</span>
+      <span class="tok"><span class="swc" style="background:#555555"></span> muted</span>
+      <span class="tok"><span class="swc" style="background:#6b5a1e"></span> accent</span>
+      <span class="tok"><span class="swc" style="background:#1a7f37"></span> up</span>
+      <span class="tok"><span class="swc" style="background:#b42318"></span> down</span>
+      <span class="tok">serif · hero 32sp</span>
+      <span class="tok">sans · meta 12–13sp</span>
+      <span class="tok">radius · 0 content</span>
+      <span class="tok">rule · 2px masthead</span>
+    </div>
+
+    <footer class="page">
+      Implementation: <code>android/</code> · API: <code>/api/latest.json</code> ·
+      Chart: <code>HistoryActivity</code>
+    </footer>
+  </div>
+</body>
+</html>

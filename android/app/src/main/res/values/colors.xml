@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!-- Mirrors goldmandu.chandanshakya.com.np -->
+  <color name="paper">#FFFFFFFF</color>
+  <color name="ink">#FF111111</color>
+  <color name="muted">#FF555555</color>
+  <color name="accent">#FF6B5A1E</color>
+  <color name="rule">#FF111111</color>
+  <color name="hairline">#FFE5E5E5</color>
+  <color name="up">#FF1A7F37</color>
+  <color name="down">#FFB42318</color>
+  <color name="spark_fill">#146B5A1E</color>
+  <color name="spark_stroke">#FF6B5A1E</color>
+</resources>

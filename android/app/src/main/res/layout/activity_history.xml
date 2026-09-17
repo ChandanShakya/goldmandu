@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".HistoryActivity">
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center_vertical"
+      android:orientation="horizontal"
+      android:paddingStart="8dp"
+      android:paddingEnd="20dp"
+      android:paddingTop="8dp"
+      android:paddingBottom="8dp">
+
+    <ImageButton
+        android:id="@+id/back"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:contentDescription="@string/back"
+        android:src="@drawable/ic_back"
+        android:scaleType="center" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/history_title"
+        android:textColor="@color/ink"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:fontFamily="serif" />
+  </LinearLayout>
+
+  <View
+      android:layout_width="match_parent"
+      android:layout_height="2dp"
+      android:background="@color/rule" />
+
+  <TextView
+      android:id="@+id/subtitle"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:paddingStart="20dp"
+      android:paddingEnd="20dp"
+      android:paddingTop="16dp"
+      android:paddingBottom="8dp"
+      android:textColor="@color/muted"
+      android:textSize="13sp"
+      android:fontFamily="sans-serif"
+      tools:text="Fine gold · per tola · 90 days" />
+
+  <np.goldmandu.app.ui.SparklineView
+      android:id="@+id/spark"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:layout_marginStart="12dp"
+      android:layout_marginEnd="12dp" />
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:paddingStart="20dp"
+      android:paddingEnd="20dp"
+      android:paddingTop="8dp"
+      android:paddingBottom="28dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/low"
+          android:textColor="@color/muted"
+          android:textSize="11sp"
+          android:fontFamily="sans-serif" />
+
+      <TextView
+          android:id="@+id/statLow"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textColor="@color/ink"
+          android:textSize="16sp"
+          android:textStyle="bold"
+          android:fontFamily="serif"
+          tools:text="Rs. —" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/now"
+          android:textColor="@color/muted"
+          android:textSize="11sp"
+          android:fontFamily="sans-serif" />
+
+      <TextView
+          android:id="@+id/statNow"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textColor="@color/ink"
+          android:textSize="16sp"
+          android:textStyle="bold"
+          android:fontFamily="serif"
+          tools:text="Rs. —" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="end"
+        android:orientation="vertical">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/high"
+          android:textColor="@color/muted"
+          android:textSize="11sp"
+          android:fontFamily="sans-serif" />
+
+      <TextView
+          android:id="@+id/statHigh"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textColor="@color/ink"
+          android:textSize="16sp"
+          android:textStyle="bold"
+          android:fontFamily="serif"
+          tools:text="Rs. —" />
+    </LinearLayout>
+  </LinearLayout>
+</LinearLayout>

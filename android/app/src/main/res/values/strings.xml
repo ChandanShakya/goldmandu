@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">GoldMandu</string>
+  <string name="tagline">Nepal gold &amp; silver rates</string>
+  <string name="fine_gold">Fine gold · 24K</string>
+  <string name="tejabi_gold">Tejabi · 22K</string>
+  <string name="silver">Silver</string>
+  <string name="per_tola">/tola</string>
+  <string name="per_gram">/10g</string>
+  <string name="history_title">90-day chart</string>
+  <string name="history_subtitle">Fine gold · per tola</string>
+  <string name="open_history">90-day chart  ›</string>
+  <string name="alerts">Alert</string>
+  <string name="loading">Loading…</string>
+  <string name="offline">Last saved rates</string>
+  <string name="error_load">Could not load. Pull to retry.</string>
+  <string name="back">Back</string>
+  <string name="low">Low</string>
+  <string name="now">Now</string>
+  <string name="high">High</string>
+  <string name="channel_rates">Daily rates</string>
+  <string name="notif_title">Today’s rates</string>
+  <string name="source">Fenegosida · NPR</string>
+  <string name="updated_fmt">As of %1$s</string>
+</resources>
