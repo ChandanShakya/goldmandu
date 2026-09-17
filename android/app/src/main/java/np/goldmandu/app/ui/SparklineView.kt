@@ -184,7 +184,17 @@ class SparklineView @JvmOverloads constructor(
     val silver = FloatArray(points.size) { points[it].silver?.toFloat() ?: 0f }
 
     val (fineLo, fineHi) = rangeOf(fine, tejabi)
-    val (silverLo, silverHi) = rangeOf(silver.filter { it > 0f }.toFloatArray().ifEmpty { floatArrayOf(1f) })
+    val silverPos = FloatArray(silver.size)
+    var silverCount = 0
+    for (v in silver) {
+      if (v > 0f) {
+        silverPos[silverCount] = v
+        silverCount++
+      }
+    }
+    val silverSeries =
+      if (silverCount == 0) floatArrayOf(1f) else silverPos.copyOf(silverCount)
+    val (silverLo, silverHi) = rangeOf(silverSeries)
 
     fun yGold(v: Float): Float = plotTop + plotH * (1f - (v - fineLo) / (fineHi - fineLo))
     fun ySilver(v: Float): Float = plotTop + plotH * (1f - (v - silverLo) / (silverHi - silverLo))
