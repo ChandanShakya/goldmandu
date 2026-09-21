@@ -31810,5 +31810,16 @@
         "fine_gold_tola": "305200",
         "tejabi_gold_tola": "289940",
         "silver_tola": "4795"
+    },
+    {
+        "day": "5",
+        "month": "Ashoj",
+        "year": "2083",
+        "fine_gold_gram": "260545",
+        "tejabi_gold_gram": "247518",
+        "silver_gram": "4120",
+        "fine_gold_tola": "303900",
+        "tejabi_gold_tola": "288705",
+        "silver_tola": "4805"
     }
 ]
