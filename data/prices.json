@@ -32734,5 +32734,16 @@
         "fine_gold_tola": "283500",
         "tejabi_gold_tola": "269325",
         "silver_tola": "3930"
+    },
+    {
+        "day": "13",
+        "month": "Kartik",
+        "year": "2083",
+        "fine_gold_gram": "240310",
+        "tejabi_gold_gram": "228294",
+        "silver_gram": "3280",
+        "fine_gold_tola": "280300",
+        "tejabi_gold_tola": "266285",
+        "silver_tola": "3825"
     }
 ]
