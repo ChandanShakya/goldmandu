@@ -32921,5 +32921,16 @@
         "fine_gold_tola": "242600",
         "tejabi_gold_tola": "230470",
         "silver_tola": "3065"
+    },
+    {
+        "day": "7",
+        "month": "Mansir",
+        "year": "2083",
+        "fine_gold_gram": "212105",
+        "tejabi_gold_gram": "201500",
+        "silver_gram": "2666",
+        "fine_gold_tola": "247400",
+        "tejabi_gold_tola": "235030",
+        "silver_tola": "3110"
     }
 ]
